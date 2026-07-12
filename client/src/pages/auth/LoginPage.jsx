@@ -94,8 +94,8 @@ export default function LoginPage() {
               </div>
             </div>
             <div className="absolute bottom-5 left-0 right-0 z-10 flex items-center justify-between px-10 text-[8px] font-bold uppercase tracking-[0.3em] text-white/20">
-              <p>© 2025 AssetFlow</p>
-              <p>Odoo Hack 2025 · Esc(Reality);</p>
+              <p>© 2026 AssetFlow</p>
+              <p>Odoo Hackathon 2026 · Esc(Reality);</p>
             </div>
           </section>
 
