@@ -8,9 +8,9 @@
 
 ## 🔗 Quick Links
 
-| 🚀 Live Demo | 🎥 Video Walkthrough | 📊 Presentation |
-|:------------:|:-------------------:|:---------------:|
-| [**Launch App**](#) | [**Watch Demo**](#) | [**View PPT**](#) |
+| 🚀 Live Demo | 🎥 Video Walkthrough |
+|:------------:|:-------------------:|
+| [**Launch App**](#) | [**Watch Demo**](#) |
 
 ---
 
