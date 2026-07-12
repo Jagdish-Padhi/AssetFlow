@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <AppRoutes />
-      <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
+      <Toaster position="top-right" toastOptions={{ duration: 4000 }} containerStyle={{ zIndex: 99999 }} />
     </>
   );
 }

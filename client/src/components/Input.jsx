@@ -34,7 +34,7 @@ const Input = ({
 					onChange={onChange}
 					placeholder={placeholder}
 					disabled={disabled}
-					className={`w-full px-4 py-2 ${Icon ? 'pl-10' : ''} border rounded-lg font-medium transition-colors
+					className={`w-full ${type === 'datetime-local' ? 'px-2' : 'px-4'} py-2 ${Icon ? 'pl-10' : ''} border rounded-lg font-medium transition-colors
 						${error ? 'border-red-500 text-red-900' : 'border-[var(--app-color-border)] text-[var(--app-color-text)]'}
 						placeholder:text-[var(--app-color-text-muted)]
 						focus:outline-none focus:ring-2 focus:ring-offset-0
