@@ -1,0 +1,26 @@
+# Handle line endings automatically for files detected as text
+# and leave binary files untouched.
+* text=auto
+
+# Declare files that will always have LF line endings on checkout.
+# This prevents Windows carriage return (CRLF) conversion issues for script/config files.
+*.sh           text eol=lf
+*.json         text
+*.js           text
+*.jsx          text
+*.css          text
+*.html         text
+*.md           text
+
+# Denote binary files (forces git to leave them raw)
+*.png          binary
+*.jpg          binary
+*.jpeg         binary
+*.gif          binary
+*.ico          binary
+*.svg          text eol=lf
+*.pdf          binary
+*.woff         binary
+*.woff2        binary
+*.eot          binary
+*.ttf          binary

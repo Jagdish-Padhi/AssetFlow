@@ -1,6 +1,64 @@
+# ── Dependencies ──
 node_modules/
+/client/node_modules/
+/server/node_modules/
+jspm_packages/
+web_stage/
+
+# ── Environment Variables & Credentials ──
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+/client/.env
+/server/.env
+*.env
+
+# ── Build & Distribution ──
 dist/
-.DS_Store
+/client/dist/
+/client/build/
+build/
+out/
+.next/
+.nuxt/
+.vercel/
+
+# ── Logs & Debugging ──
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 *.log
+logs/
+*.log*
+
+# ── Testing & Coverage ──
+coverage/
+/client/coverage/
+.nyc_output/
+.jest/
+htmlreport/
+reports/
+
+# ── IDEs, Editors & OS Files ──
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ── Database State & Migrations ──
 .drizzle/
+sqlite.db
+sqlite.db-journal
+*.sqlite
+/server/db/backups/
