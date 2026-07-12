@@ -21,6 +21,7 @@ import MaintenancePage      from '../pages/dashboard/MaintenancePage.jsx';
 import AuditsPage           from '../pages/dashboard/AuditsPage.jsx';
 import DepartmentsPage      from '../pages/dashboard/DepartmentsPage.jsx';
 import CategoriesPage       from '../pages/dashboard/CategoriesPage.jsx';
+import NotificationsPage    from '../pages/dashboard/NotificationsPage.jsx';
 import BookingResourcesPage from '../pages/dashboard/BookingResourcesPage.jsx';
 import BookingCalendarPage from '../pages/dashboard/BookingCalendarPage.jsx';
 import MyBookingsPage from '../pages/dashboard/MyBookingsPage.jsx';
@@ -76,9 +77,7 @@ export default function AppRoutes() {
             <Route path="/dashboard/audits"      element={<AuditsPage />} />
             <Route path="/dashboard/departments" element={<DepartmentsPage />} />
             <Route path="/dashboard/categories"  element={<CategoriesPage />} />
-            <Route path="/dashboard/resources" element={<BookingResourcesPage />} />
-            <Route path="/dashboard/bookings/test" element={<BookingCalendarPage />} />
-            <Route path="/dashboard/bookings/mine" element={<MyBookingsPage />} />
+            <Route path="/dashboard/notifications" element={<NotificationsPage />} />
             {/* Unknown dashboard sub-paths → overview */}
             <Route path="/dashboard/*"           element={<Navigate to="/dashboard" replace />} />
           </Route>

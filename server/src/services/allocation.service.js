@@ -6,6 +6,8 @@
 import { and, eq, lt, desc } from 'drizzle-orm';
 import { getDb } from '../db/index.js';
 import { allocations, assets, transferRequests, users } from '../db/schema/index.js';
+import { sendNotification } from './notification.service.js';
+import { logActivity } from './activityLog.service.js';
 
 // ── Conflict Engine ───────────────────────────────────────────────────────────
 
@@ -32,7 +34,24 @@ export async function listAllocations({ assetId, userId, status, limit = 50, off
   if (userId) conditions.push(eq(allocations.assignedToId, userId));
   if (status) conditions.push(eq(allocations.status, status));
 
-  const query = db.select().from(allocations);
+  const query = db
+    .select({
+      id: allocations.id,
+      assetId: allocations.assetId,
+      assignedToId: allocations.assignedToId,
+      departmentId: allocations.departmentId,
+      expectedReturnDate: allocations.expectedReturnDate,
+      status: allocations.status,
+      notes: allocations.notes,
+      createdAt: allocations.createdAt,
+      assetName: assets.name,
+      assetTag: assets.assetTag,
+      employeeName: users.name,
+    })
+    .from(allocations)
+    .leftJoin(assets, eq(allocations.assetId, assets.id))
+    .leftJoin(users, eq(allocations.assignedToId, users.id));
+
   if (conditions.length > 0) query.where(and(...conditions));
   return query.orderBy(desc(allocations.createdAt)).limit(limit).offset(offset);
 }
@@ -46,14 +65,14 @@ export async function getAllocationById(id) {
 
 export async function allocateAsset(payload = {}) {
   const db = getDb();
-  const { assetId, assignedToId, departmentId, expectedReturnDate, notes } = payload;
+  const { assetId, assignedToId, departmentId, expectedReturnDate, notes, actionedByUserId } = payload;
 
   if (!assetId || !assignedToId) {
     const e = new Error('assetId and assignedToId are required.'); e.statusCode = 400; throw e;
   }
 
   // Conflict check
-  await ensureAssetAllocatable(db, assetId);
+  const asset = await ensureAssetAllocatable(db, assetId);
 
   // Verify assignee exists
   const [assignee] = await db.select({ id: users.id }).from(users).where(eq(users.id, assignedToId));
@@ -71,6 +90,23 @@ export async function allocateAsset(payload = {}) {
   // Update asset status → allocated
   await db.update(assets).set({ status: 'allocated', updatedAt: new Date() }).where(eq(assets.id, assetId));
 
+  // Log activity
+  await logActivity({
+    userId: actionedByUserId,
+    action: 'Asset Allocated',
+    entityType: 'asset',
+    entityId: assetId,
+    details: { assignedToId, expectedReturnDate },
+  });
+
+  // Send Notification
+  await sendNotification({
+    userId: assignedToId,
+    title: 'Asset Allocated To You',
+    message: `You have been allocated the asset: "${asset.name}" (Tag: ${asset.assetTag}). Please review and keep it in good condition.`,
+    type: 'assignment',
+  });
+
   return allocation;
 }
 
@@ -82,7 +118,7 @@ export async function returnAsset(allocationId, payload = {}) {
     const e = new Error('Only active or overdue allocations can be returned.'); e.statusCode = 400; throw e;
   }
 
-  const { conditionOnReturn } = payload;
+  const { conditionOnReturn, actionedByUserId } = payload;
 
   await db.update(allocations).set({
     status: 'returned',
@@ -90,8 +126,31 @@ export async function returnAsset(allocationId, payload = {}) {
     updatedAt: new Date(),
   }).where(eq(allocations.id, allocationId));
 
-  // Update asset status → available
-  await db.update(assets).set({ status: 'available', updatedAt: new Date() }).where(eq(assets.id, allocation.assetId));
+  // Update asset status → available, and update condition
+  await db.update(assets).set({
+    status: 'available',
+    condition: conditionOnReturn || undefined,
+    updatedAt: new Date(),
+  }).where(eq(assets.id, allocation.assetId));
+
+  const [asset] = await db.select({ name: assets.name, assetTag: assets.assetTag }).from(assets).where(eq(assets.id, allocation.assetId));
+
+  // Log activity
+  await logActivity({
+    userId: actionedByUserId,
+    action: 'Asset Returned',
+    entityType: 'asset',
+    entityId: allocation.assetId,
+    details: { conditionOnReturn },
+  });
+
+  // Send Notification
+  await sendNotification({
+    userId: allocation.assignedToId,
+    title: 'Asset Return Processed',
+    message: `The return of your allocated asset "${asset?.name || 'Asset'}" (Tag: ${asset?.assetTag || ''}) has been processed successfully.`,
+    type: 'return',
+  });
 
   return { returned: true, assetId: allocation.assetId };
 }
@@ -106,7 +165,18 @@ export async function flagOverdueAllocations() {
       eq(allocations.status, 'active'),
       lt(allocations.expectedReturnDate, now),
     ))
-    .returning({ id: allocations.id });
+    .returning({ id: allocations.id, assignedToId: allocations.assignedToId, assetId: allocations.assetId });
+
+  // Send notifications for newly flagged overdue allocations
+  for (const item of result) {
+    const [asset] = await db.select({ name: assets.name, assetTag: assets.assetTag }).from(assets).where(eq(assets.id, item.assetId));
+    await sendNotification({
+      userId: item.assignedToId,
+      title: 'Asset Allocation Overdue!',
+      message: `Your allocation for "${asset?.name || 'Asset'}" (Tag: ${asset?.assetTag || ''}) is overdue. Please return it or contact your administrator.`,
+      type: 'overdue',
+    });
+  }
 
   return { flagged: result.length };
 }
@@ -145,6 +215,16 @@ export async function createTransferRequest(payload = {}, requestedById) {
     notes: notes || null,
     status: 'pending',
   }).returning();
+
+  // Log activity
+  await logActivity({
+    userId: requestedById,
+    action: 'Transfer Requested',
+    entityType: 'asset',
+    entityId: assetId,
+    details: { fromUserId, toUserId },
+  });
+
   return row;
 }
 
@@ -165,6 +245,8 @@ export async function actionTransferRequest(transferId, action, actionedById) {
     updatedAt: new Date(),
   }).where(eq(transferRequests.id, transferId));
 
+  const [asset] = await db.select({ name: assets.name, assetTag: assets.assetTag }).from(assets).where(eq(assets.id, tr.assetId));
+
   // If approved: close old allocation + open new one
   if (action === 'approved') {
     // Mark old allocation returned
@@ -182,7 +264,40 @@ export async function actionTransferRequest(transferId, action, actionedById) {
       status: 'active',
       notes: `Transferred from transfer request ${transferId}`,
     });
+
+    // Notify new holder
+    await sendNotification({
+      userId: tr.toUserId,
+      title: 'Asset Transferred To You',
+      message: `The asset "${asset?.name || 'Asset'}" (Tag: ${asset?.assetTag || ''}) has been transferred to your possession.`,
+      type: 'assignment',
+    });
+
+    // Notify previous holder
+    await sendNotification({
+      userId: tr.fromUserId,
+      title: 'Asset Transfer Confirmed',
+      message: `Your asset "${asset?.name || 'Asset'}" (Tag: ${asset?.assetTag || ''}) has been successfully transferred to another colleague.`,
+      type: 'return',
+    });
+  } else {
+    // Notify requester about rejection
+    await sendNotification({
+      userId: tr.requestedById,
+      title: 'Transfer Request Rejected',
+      message: `Your transfer request for "${asset?.name || 'Asset'}" has been rejected.`,
+      type: 'rejection',
+    });
   }
+
+  // Log activity
+  await logActivity({
+    userId: actionedById,
+    action: `Transfer Request ${action === 'approved' ? 'Approved' : 'Rejected'}`,
+    entityType: 'asset',
+    entityId: tr.assetId,
+    details: { transferId },
+  });
 
   return { action, transferId };
 }

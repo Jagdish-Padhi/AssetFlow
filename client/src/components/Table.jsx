@@ -13,8 +13,33 @@ const Table = ({
 }) => {
 	if (isLoading) {
 		return (
-			<div className='flex items-center justify-center py-8'>
-				<Spinner label='Loading data...' />
+			<div className={`overflow-x-auto rounded-lg border border-[var(--app-color-border)] ${className}`}>
+				<table className='w-full'>
+					<thead>
+						<tr className='border-b border-[var(--app-color-border)] bg-[var(--app-color-surface-elevated)]'>
+							{columns.map((column) => (
+								<th
+									key={column.key}
+									className='px-6 py-3 text-left text-sm font-semibold text-[var(--app-color-text)]'
+									style={{ width: column.width }}
+								>
+									{column.label}
+								</th>
+							))}
+						</tr>
+					</thead>
+					<tbody>
+						{Array.from({ length: 5 }).map((_, rowIndex) => (
+							<tr key={rowIndex} className='border-b border-[var(--app-color-border)]'>
+								{columns.map((column) => (
+									<td key={`${rowIndex}-${column.key}`} className='px-6 py-4'>
+										<Skeleton width="80%" height="1.1rem" />
+									</td>
+								))}
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
 		);
 	}
@@ -65,6 +90,6 @@ const Table = ({
 	);
 };
 
-import Spinner from './Spinner';
+import Skeleton from './Skeleton';
 
 export default Table;

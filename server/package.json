@@ -16,6 +16,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -25,8 +26,9 @@
     "express-rate-limit": "^7.4.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "@neondatabase/serverless": "^0.10.4",
+    "nodemailer": "^9.0.3",
     "pg": "^8.13.1",
+    "twilio": "^6.0.2",
     "ws": "^8.18.0"
   },
   "devDependencies": {

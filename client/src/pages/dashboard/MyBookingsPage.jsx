@@ -26,7 +26,7 @@ function BookingActions({ booking, onCancel, onReschedule }) {
   );
 }
 
-export default function MyBookingsPage() {
+export default function MyBookingsPage({ hideHeader }) {
   const [myBookings, setMyBookings] = useState([]);
   const [pending, setPending] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -136,7 +136,7 @@ export default function MyBookingsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="My Bookings" subtitle="Bookings you've made, and any requests waiting on approval." />
+      {!hideHeader && <PageHeader title="My Bookings" subtitle="Bookings you've made, and any requests waiting on approval." />}
 
       <Tabs
         tabs={[
