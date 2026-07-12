@@ -1,11 +1,15 @@
 import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, LogOut, Package, Users, Building2, Tag, Wrench, CalendarCheck, FileSearch, CalendarClock, ListChecks, Bell, BarChart3 } from 'lucide-react';
+import {
+  LayoutDashboard, LogOut, Package, Users, Building2, Tag, Wrench,
+  CalendarCheck, FileSearch, Bell, BarChart3, ListChecks
+} from 'lucide-react';
 import toast from 'react-hot-toast';
 
 import api from '../../services/api.js';
 import useAuthStore from '../../store/auth.store.js';
 import { formatTimeRange } from '../../utils/formatDate.js';
+import BrandLogo from '../BrandLogo.jsx';
 
 const navigationItems = [
   { label: 'Overview',            path: '/dashboard',               icon: LayoutDashboard },
@@ -57,7 +61,7 @@ export default function DashboardLayout() {
       <aside className="print:hidden sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-(--app-color-border) bg-white/90 backdrop-blur">
         <Link to="/" className="flex items-center gap-3 px-6 py-5 hover:opacity-80">
           <img src="/logo.png" alt="AssetFlow Logo" className="h-8 w-8 object-contain" />
-          <span className="text-sm font-black uppercase tracking-widest text-(--app-color-text)">AssetFlow</span>
+          <BrandLogo size="md" />
         </Link>
 
         {/* Role badge */}
