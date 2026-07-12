@@ -76,6 +76,32 @@ export default function ReportsPage() {
 
   return (
     <div className="space-y-8 print:p-0">
+      <style dangerouslySetInnerHTML={{__html: `
+        @media print {
+          body * {
+            visibility: hidden;
+          }
+          .print\\:block, .print\\:block * {
+            visibility: visible;
+          }
+          .print\\:block {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 10px !important;
+            border: none !important;
+            box-shadow: none !important;
+          }
+          @page {
+            size: A4;
+            margin: 12mm 10mm;
+          }
+        }
+      `}} />
+
       {/* Screen view page header */}
       <div className="print:hidden">
         <PageHeader
