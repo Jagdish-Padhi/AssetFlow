@@ -32,7 +32,24 @@ export async function listAllocations({ assetId, userId, status, limit = 50, off
   if (userId) conditions.push(eq(allocations.assignedToId, userId));
   if (status) conditions.push(eq(allocations.status, status));
 
-  const query = db.select().from(allocations);
+  const query = db
+    .select({
+      id: allocations.id,
+      assetId: allocations.assetId,
+      assignedToId: allocations.assignedToId,
+      departmentId: allocations.departmentId,
+      expectedReturnDate: allocations.expectedReturnDate,
+      status: allocations.status,
+      notes: allocations.notes,
+      createdAt: allocations.createdAt,
+      assetName: assets.name,
+      assetTag: assets.assetTag,
+      employeeName: users.name,
+    })
+    .from(allocations)
+    .leftJoin(assets, eq(allocations.assetId, assets.id))
+    .leftJoin(users, eq(allocations.assignedToId, users.id));
+
   if (conditions.length > 0) query.where(and(...conditions));
   return query.orderBy(desc(allocations.createdAt)).limit(limit).offset(offset);
 }
