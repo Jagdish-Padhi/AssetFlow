@@ -1,22 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useAuthStore from '../../store/auth.store.js';
 import StatCard from '../../components/StatCard.jsx';
 import PageHeader from '../../components/PageHeader.jsx';
-// import api from '../../services/api.js'; // uncomment when wiring real API
-
-// Placeholder stats — replace with /api/dashboard/stats when Phase 8 is built
-const MOCK_STATS = [
-  { label: 'Total Assets',      value: '—', change: '+0',  trend: 'up' },
-  { label: 'Active Allocations',value: '—', change: '+0',  trend: 'up' },
-  { label: 'Pending Maintenance',value: '—', change: '0',  trend: 'neutral' },
-  { label: 'Overdue Returns',   value: '—', change: '-0',  trend: 'down' },
-];
+import api from '../../services/api.js';
 
 // Placeholder activity — replace with /api/activity-logs when Phase 9 is built
 const MOCK_ACTIVITY = [
-  { id: 1, label: 'Laptop AST-001 allocated to Ravi Kumar',        time: 'Just now',   status: 'active' },
-  { id: 2, label: 'Maintenance request raised for Projector #3',   time: '10 mins ago', status: 'pending' },
-  { id: 3, label: 'Conference Room B booking confirmed',            time: '1 hr ago',   status: 'done' },
+  { id: 1, label: 'Laptop AST-MAC-001 allocated to Regular Employee', time: 'Just now', status: 'active' },
+  { id: 2, label: 'Maintenance request raised for Delivery Van', time: '10 mins ago', status: 'pending' },
+  { id: 3, label: 'Conference Room B booking confirmed', time: '1 hr ago', status: 'done' },
 ];
 
 const STATUS_STYLES = {
@@ -27,8 +19,31 @@ const STATUS_STYLES = {
 
 export default function DashboardHomePage() {
   const user = useAuthStore((s) => s.user);
-  const [stats] = useState(MOCK_STATS);
   const [activity] = useState(MOCK_ACTIVITY);
+  const [stats, setStats] = useState([
+    { label: 'Total Assets', value: '0', change: '', trend: 'neutral' },
+    { label: 'Active Allocations', value: '0', change: '', trend: 'neutral' },
+    { label: 'Pending Maintenance', value: '0', change: '', trend: 'neutral' },
+    { label: 'Overdue Returns', value: '0', change: '', trend: 'neutral' },
+  ]);
+
+  useEffect(() => {
+    async function loadStats() {
+      try {
+        const res = await api.get('/dashboard/stats');
+        const data = res.data.stats;
+        setStats([
+          { label: 'Total Assets', value: String(data.totalAssets), change: '', trend: 'neutral' },
+          { label: 'Active Allocations', value: String(data.activeAllocations), change: '', trend: 'neutral' },
+          { label: 'Pending Maintenance', value: String(data.pendingMaintenance), change: '', trend: 'neutral' },
+          { label: 'Overdue Returns', value: String(data.overdueReturns), change: '', trend: 'neutral' },
+        ]);
+      } catch {
+        // Silent fail
+      }
+    }
+    loadStats();
+  }, []);
 
   return (
     <div className="space-y-8">
