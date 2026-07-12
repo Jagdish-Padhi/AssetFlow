@@ -10,7 +10,7 @@
 
 | 🚀 Live Demo | 🎥 Video Walkthrough |
 |:------------:|:-------------------:|
-| [**Launch App**](#) | [**Watch Demo**](#) |
+| [**Launch App**](https://asset-flow-plum.vercel.app/) | [**Watch Demo**](https://drive.google.com/file/d/199adQrDXrEEYIwsSx2QUr-fd7cwRxZNm/view?usp=sharing) |
 
 ---
 
