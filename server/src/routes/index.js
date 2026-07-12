@@ -10,6 +10,7 @@ import categoryRouter   from './category.route.js';
 import employeeRouter   from './employee.route.js';
 import assetRouter      from './asset.route.js';
 import allocationRouter from './allocation.route.js';
+import maintenanceRouter from './maintenance.route.js';
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use('/categories',  categoryRouter);
 router.use('/employees',   employeeRouter);
 router.use('/assets',      assetRouter);
 router.use('/allocations', allocationRouter);
+router.use('/maintenance', maintenanceRouter);
 
 export default router;
