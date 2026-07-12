@@ -1,23 +1,24 @@
 /**
  * Route barrel
- *
  * Mount new routers here as you add domain features.
- * Pattern: import router → router.use('/your-resource', yourRouter)
  */
 import { Router } from 'express';
-import healthRouter   from './health.route.js';
-import authRouter     from './auth.route.js';
-import resourceRouter from './resource.route.js';
+import healthRouter     from './health.route.js';
+import authRouter       from './auth.route.js';
+import departmentRouter from './department.route.js';
+import categoryRouter   from './category.route.js';
+import employeeRouter   from './employee.route.js';
+import assetRouter      from './asset.route.js';
+import allocationRouter from './allocation.route.js';
 
 const router = Router();
 
 router.use(healthRouter);
-router.use('/auth',      authRouter);
-// TODO: rename '/resources' to match your domain entity (e.g. '/products', '/orders')
-router.use('/resources', resourceRouter);
-
-// TODO: Add more routers below as you build out features
-// import productsRouter from './products.route.js';
-// router.use('/products', productsRouter);
+router.use('/auth',        authRouter);
+router.use('/departments', departmentRouter);
+router.use('/categories',  categoryRouter);
+router.use('/employees',   employeeRouter);
+router.use('/assets',      assetRouter);
+router.use('/allocations', allocationRouter);
 
 export default router;
