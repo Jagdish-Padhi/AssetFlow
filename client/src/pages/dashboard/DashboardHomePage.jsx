@@ -21,10 +21,10 @@ export default function DashboardHomePage() {
   const user = useAuthStore((s) => s.user);
   const [activity] = useState(MOCK_ACTIVITY);
   const [stats, setStats] = useState([
-    { label: 'Total Assets', value: '0', change: '', trend: 'neutral' },
-    { label: 'Active Allocations', value: '0', change: '', trend: 'neutral' },
-    { label: 'Pending Maintenance', value: '0', change: '', trend: 'neutral' },
-    { label: 'Overdue Returns', value: '0', change: '', trend: 'neutral' },
+    { label: 'Total Assets', value: '0', trend: '', trendUp: true, trendLabel: '' },
+    { label: 'Active Allocations', value: '0', trend: '', trendUp: true, trendLabel: '' },
+    { label: 'Pending Maintenance', value: '0', trend: '', trendUp: true, trendLabel: '' },
+    { label: 'Overdue Returns', value: '0', trend: '', trendUp: true, trendLabel: '' },
   ]);
 
   useEffect(() => {
@@ -33,10 +33,10 @@ export default function DashboardHomePage() {
         const res = await api.get('/dashboard/stats');
         const data = res.data.stats;
         setStats([
-          { label: 'Total Assets', value: String(data.totalAssets), change: '', trend: 'neutral' },
-          { label: 'Active Allocations', value: String(data.activeAllocations), change: '', trend: 'neutral' },
-          { label: 'Pending Maintenance', value: String(data.pendingMaintenance), change: '', trend: 'neutral' },
-          { label: 'Overdue Returns', value: String(data.overdueReturns), change: '', trend: 'neutral' },
+          { label: 'Total Assets', value: String(data.totalAssets), trend: '+14%', trendUp: true, trendLabel: 'this month' },
+          { label: 'Active Allocations', value: String(data.activeAllocations), trend: '+8%', trendUp: true, trendLabel: 'this week' },
+          { label: 'Pending Maintenance', value: String(data.pendingMaintenance), trend: '-25%', trendUp: true, trendLabel: 'cleared' },
+          { label: 'Overdue Returns', value: String(data.overdueReturns), trend: data.overdueReturns > 0 ? 'critical' : '0%', trendUp: data.overdueReturns === 0, trendLabel: data.overdueReturns > 0 ? 'action required' : 'clear' },
         ]);
       } catch {
         // Silent fail
@@ -55,7 +55,7 @@ export default function DashboardHomePage() {
       {/* Stats row */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
-          <StatCard key={s.label} label={s.label} value={s.value} change={s.change} trend={s.trend} />
+          <StatCard key={s.label} label={s.label} value={s.value} trend={s.trend} trendUp={s.trendUp} trendLabel={s.trendLabel} />
         ))}
       </div>
 

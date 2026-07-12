@@ -17,7 +17,7 @@ async function seed() {
   await db.delete(departments);
   await db.delete(categories);
 
-  console.log('🌱 Seeding database...');
+  console.log('🌱 Seeding database with rich variety...');
 
   // 1. Create Departments
   console.log('Creating departments...');
@@ -30,6 +30,7 @@ async function seed() {
   const [laptopCat] = await db.insert(categories).values({ name: 'Laptops', description: 'Company issued laptops' }).returning();
   const [furnitureCat] = await db.insert(categories).values({ name: 'Furniture', description: 'Office furniture' }).returning();
   const [vehicleCat] = await db.insert(categories).values({ name: 'Vehicles', description: 'Company vehicles' }).returning();
+  const [tabletCat] = await db.insert(categories).values({ name: 'Tablets', description: 'Testing tablets' }).returning();
 
   // 3. Create Users
   console.log('Creating users...');
@@ -64,7 +65,9 @@ async function seed() {
 
   // 4. Create Assets
   console.log('Creating assets...');
-  const [asset1] = await db.insert(assets).values({
+  
+  // MacBook Pro - Allocated
+  const [assetMac] = await db.insert(assets).values({
     name: 'MacBook Pro 16"',
     assetTag: 'AST-MAC-001',
     categoryId: laptopCat.id,
@@ -74,19 +77,43 @@ async function seed() {
     isBookable: false
   }).returning();
 
-  const [asset2] = await db.insert(assets).values({
-    name: 'Ergonomic Chair',
-    assetTag: 'AST-CHR-001',
+  // Lenovo ThinkPad - Allocated
+  const [assetLenovo] = await db.insert(assets).values({
+    name: 'Lenovo ThinkPad X1 Carbon',
+    assetTag: 'AST-LNV-002',
+    categoryId: laptopCat.id,
+    departmentId: itDept.id,
+    status: 'allocated',
+    condition: 'new',
+    isBookable: false
+  }).returning();
+
+  // Ergonomic Chair - Available
+  const [assetChair] = await db.insert(assets).values({
+    name: 'Ergonomic Desk Chair',
+    assetTag: 'AST-CHR-003',
     categoryId: furnitureCat.id,
     departmentId: hrDept.id,
     status: 'available',
     condition: 'new',
     isBookable: false
   }).returning();
-  
-  const [asset3] = await db.insert(assets).values({
+
+  // Sony Projector - Available
+  const [assetProj] = await db.insert(assets).values({
+    name: 'Sony Conference Projector',
+    assetTag: 'AST-PRJ-004',
+    categoryId: furnitureCat.id,
+    departmentId: hrDept.id,
+    status: 'available',
+    condition: 'good',
+    isBookable: true
+  }).returning();
+
+  // Delivery Van - Under Maintenance
+  const [assetVan] = await db.insert(assets).values({
     name: 'Delivery Van',
-    assetTag: 'AST-VAN-001',
+    assetTag: 'AST-VAN-005',
     categoryId: vehicleCat.id,
     departmentId: opsDept.id,
     status: 'under_maintenance',
@@ -94,24 +121,92 @@ async function seed() {
     isBookable: true
   }).returning();
 
+  // iPad Pro - Lost (also linked to overdue return)
+  const [assetIpad] = await db.insert(assets).values({
+    name: 'iPad Pro 12.9"',
+    assetTag: 'AST-IPD-006',
+    categoryId: tabletCat.id,
+    departmentId: itDept.id,
+    status: 'lost',
+    condition: 'poor',
+    isBookable: false
+  }).returning();
+
+  // iPhone 13 - Retired
+  await db.insert(assets).values({
+    name: 'iPhone 13 Demo Unit',
+    assetTag: 'AST-IPH-007',
+    categoryId: tabletCat.id,
+    departmentId: itDept.id,
+    status: 'retired',
+    condition: 'poor',
+    isBookable: false
+  });
+
+  // Dell Latitude - Available
+  await db.insert(assets).values({
+    name: 'Dell Latitude 5420',
+    assetTag: 'AST-DEL-008',
+    categoryId: laptopCat.id,
+    departmentId: itDept.id,
+    status: 'available',
+    condition: 'good',
+    isBookable: false
+  });
+
   // 5. Create Allocations
   console.log('Creating allocations...');
+  
+  // Normal active allocation
   await db.insert(allocations).values({
-    assetId: asset1.id,
+    assetId: assetMac.id,
     assignedToId: employeeUser.id,
     departmentId: itDept.id,
     status: 'active',
-    notes: 'Initial allocation'
+    notes: 'Standard onboarding laptop issue.'
+  });
+
+  // Active allocation
+  await db.insert(allocations).values({
+    assetId: assetLenovo.id,
+    assignedToId: managerUser.id,
+    departmentId: itDept.id,
+    status: 'active',
+    notes: 'Issued for developer duties.'
+  });
+
+  // Overdue allocation (iPad Pro)
+  const pastDate = new Date();
+  pastDate.setDate(pastDate.getDate() - 10);
+  
+  await db.insert(allocations).values({
+    assetId: assetIpad.id,
+    assignedToId: employeeUser.id,
+    departmentId: itDept.id,
+    status: 'active',
+    expectedReturnDate: pastDate,
+    notes: 'For field testing. Expected back 10 days ago.'
   });
 
   // 6. Create Maintenance
   console.log('Creating maintenance requests...');
+  
+  // Request 1: In progress
   await db.insert(maintenance).values({
-    assetId: asset3.id,
+    assetId: assetVan.id,
     requestedById: managerUser.id,
     description: 'Routine oil change and tire rotation',
     priority: 'medium',
     status: 'in_progress'
+  });
+
+  // Request 2: Pending screen replacement
+  await db.insert(maintenance).values({
+    assetId: assetIpad.id,
+    requestedById: employeeUser.id,
+    description: 'Cracked screen replacement request',
+    priority: 'high',
+    status: 'pending'
   });
 
   // 7. Create Booking Resources
@@ -134,16 +229,6 @@ async function seed() {
     description: 'Casual meeting space with high table',
     requiresApproval: false,
     createdByUserId: managerUser.id,
-  }).returning();
-
-  const [projectorA] = await db.insert(bookingResources).values({
-    name: 'Mobile Projector Epson X39',
-    type: 'projector',
-    location: 'IT Equipment Storage Locker 3',
-    capacity: null,
-    description: 'Portable projector with HDMI cable',
-    requiresApproval: false,
-    createdByUserId: adminUser.id,
   }).returning();
 
   // 8. Create Bookings
