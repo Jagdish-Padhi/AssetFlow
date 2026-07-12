@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, LogOut, Package, Users, Building2, Tag, Wrench, CalendarCheck, FileSearch, CalendarClock, ListChecks, Bell } from 'lucide-react';
+import { LayoutDashboard, LogOut, Package, Users, Building2, Tag, Wrench, CalendarCheck, FileSearch, CalendarClock, ListChecks, Bell, BarChart3 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 import api from '../../services/api.js';
@@ -18,6 +18,7 @@ const navigationItems = [
   { label: 'Departments', path: '/dashboard/departments', icon: Building2 },
   { label: 'Categories',  path: '/dashboard/categories',  icon: Tag },
   { label: 'Notifications', path: '/dashboard/notifications', icon: Bell },
+  { label: 'Reports & Analytics', path: '/dashboard/reports', icon: BarChart3 },
 ];
 
 export default function DashboardLayout() {
