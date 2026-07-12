@@ -1,203 +1,349 @@
 import { Link } from 'react-router-dom';
-import { Package, CalendarCheck, Wrench, FileSearch, ShieldCheck, Activity, Users, Building, ArrowRight, Globe, ExternalLink } from 'lucide-react';
+import {
+  Package, CalendarCheck, Wrench, FileSearch, ShieldCheck, Activity,
+  Users, Building2, ArrowRight, Globe, ExternalLink,
+  BarChart3, Bell, CheckCircle2, ChevronRight,
+} from 'lucide-react';
 
-const FEATURES = [
-  { icon: <Package className="h-8 w-8 text-[var(--app-color-primary)]" />, title: 'Asset Lifecycle Registry', desc: 'Centralized directory tracking assets through structured states: Available, Allocated, Reserved, Under Maintenance, Lost, Retired, and Disposed.' },
-  { icon: <Users className="h-8 w-8 text-[var(--app-color-primary)]" />, title: 'Conflict-Free Allocations', desc: 'Prevent double-allocation of hardware through a strict check-out engine. Handshake active assets between users with secure transfer requests.' },
-  { icon: <CalendarCheck className="h-8 w-8 text-[var(--app-color-primary)]" />, title: 'Resource Scheduling Engine', desc: 'Time-slot booking calendar for shared equipment and facilities featuring real-time overlap validation and instant scheduling visualizers.' },
-  { icon: <Wrench className="h-8 w-8 text-[var(--app-color-primary)]" />, title: 'Maintenance Workflows', desc: 'Submit and approve work orders. Automatically transitions assets to "Under Maintenance" on approval and reverts to "Available" on resolution.' },
-  { icon: <FileSearch className="h-8 w-8 text-[var(--app-color-primary)]" />, title: 'Operational Audits', desc: 'Run structured department inventory verifications. Generate discrepancy reports, lock cycles, and transition missing assets to "Lost" status.' },
-  { icon: <Activity className="h-8 w-8 text-[var(--app-color-primary)]" />, title: 'Corporate Analytics', desc: 'Trace asset utilization rates, maintenance frequency, and department allocations. Export print-ready executive PDF summaries or CSV files.' },
+/* ── Feature modules ─────────────────────────────────────────────── */
+const MODULES = [
+  {
+    icon: <Building2 className="h-6 w-6 text-[var(--app-color-primary)]" />,
+    title: 'Organization & Roles',
+    desc: 'Manage departments, asset categories, and user roles — Admin, Asset Manager, Department Head, and Employee — with distinct, gated access.',
+  },
+  {
+    icon: <Package className="h-6 w-6 text-[var(--app-color-primary)]" />,
+    title: 'Asset Registry',
+    desc: 'Auto-generated asset tags, 7-state lifecycle tracking, category-specific custom specs, QR code scanning, and full per-asset history.',
+  },
+  {
+    icon: <Users className="h-6 w-6 text-[var(--app-color-primary)]" />,
+    title: 'Allocation Engine',
+    desc: 'Strict double-allocation prevention, condition-captured returns, overdue auto-flagging, and secured asset transfer requests between employees.',
+  },
+  {
+    icon: <CalendarCheck className="h-6 w-6 text-[var(--app-color-primary)]" />,
+    title: 'Resource Bookings',
+    desc: 'Visual calendar booking for shared equipment. Real-time overlap validation, hourly timeline views, and status tracking across all reservations.',
+  },
+  {
+    icon: <Wrench className="h-6 w-6 text-[var(--app-color-primary)]" />,
+    title: 'Maintenance Workflows',
+    desc: 'Submit work orders, route through managerial approval, and auto-flip asset status. Full ticket lifecycle from open to resolved.',
+  },
+  {
+    icon: <FileSearch className="h-6 w-6 text-[var(--app-color-primary)]" />,
+    title: 'Audit Cycles',
+    desc: 'Structured department verification rounds with assigned auditors. Auto-generate discrepancy reports and lock cycles to mark missing assets as Lost.',
+  },
+  {
+    icon: <BarChart3 className="h-6 w-6 text-[var(--app-color-primary)]" />,
+    title: 'Analytics & Reports',
+    desc: 'Live KPI dashboards — utilization rates, maintenance frequency, department-wise summaries. Export A4 executive PDF or granular CSV datasets.',
+  },
+  {
+    icon: <Bell className="h-6 w-6 text-[var(--app-color-primary)]" />,
+    title: 'Smart Alerts',
+    desc: 'Automated email and WhatsApp notifications for allocation events, overdue returns, maintenance approvals, and audit discrepancy flags.',
+  },
 ];
 
-const FLOW_STEPS = [
+/* ── Full system lifecycle flow ──────────────────────────────────── */
+const FLOW = [
   {
     step: '01',
-    title: 'Setup Hierarchy',
-    desc: 'Map organizational departments and asset categories to configure validation and access parameters.',
-    icon: <Building className="h-5 w-5 text-[var(--app-color-primary)]" />
+    label: 'Organisation Setup',
+    detail: 'Define departments & asset categories. Assign roles — Admin, Asset Manager, Department Head.',
+    icon: <Building2 className="h-5 w-5" />,
+    tag: 'Foundation',
   },
   {
     step: '02',
-    title: 'Register Inventory',
-    desc: 'Onboard physical capital assets with unique tracking tags and category-specific custom specifications.',
-    icon: <Package className="h-5 w-5 text-[var(--app-color-primary)]" />
+    label: 'Asset Registration',
+    detail: 'Onboard inventory with auto-tags, category specs (RAM, mileage, etc.) and QR code binding.',
+    icon: <Package className="h-5 w-5" />,
+    tag: 'Intake',
   },
   {
     step: '03',
-    title: 'Deploy & Schedule',
-    desc: 'Allocate items directly to employees or reserve shared facilities via visual scheduling calendars.',
-    icon: <CalendarCheck className="h-5 w-5 text-[var(--app-color-primary)]" />
+    label: 'Allocate & Transfer',
+    detail: 'Assign to employees. Conflict engine prevents double-booking. Capture return conditions.',
+    icon: <Users className="h-5 w-5" />,
+    tag: 'Deployment',
   },
   {
     step: '04',
-    title: 'Audit & Maintain',
-    desc: 'Execute verification cycles to reconcile missing items and route repair approvals to technicians.',
-    icon: <Wrench className="h-5 w-5 text-[var(--app-color-primary)]" />
-  }
+    label: 'Book Shared Resources',
+    detail: 'Reserve shared assets via calendar with hourly timelines. Automatic overlap rejection.',
+    icon: <CalendarCheck className="h-5 w-5" />,
+    tag: 'Scheduling',
+  },
+  {
+    step: '05',
+    label: 'Maintenance & Repair',
+    detail: 'Raise work orders. Approval flips status to Under Maintenance. Resolution reverts to Available.',
+    icon: <Wrench className="h-5 w-5" />,
+    tag: 'Upkeep',
+  },
+  {
+    step: '06',
+    label: 'Audit & Report',
+    detail: 'Run verification cycles, lock discrepancy reports, and export A4 corporate PDF summaries.',
+    icon: <BarChart3 className="h-5 w-5" />,
+    tag: 'Governance',
+  },
+];
+
+/* ── Stat highlights ─────────────────────────────────────────────── */
+const STATS = [
+  { value: '7', label: 'Asset Lifecycle States' },
+  { value: '4', label: 'Role-Based Access Tiers' },
+  { value: '360°', label: 'Per-Asset Audit History' },
+  { value: '0', label: 'Double-Allocations Possible' },
 ];
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden font-sans" style={{ background: 'var(--app-gradient-shell)' }}>
-      {/* Aurora background blobs */}
+    <div className="relative overflow-x-hidden font-sans" style={{ background: 'var(--app-gradient-shell)' }}>
       <div className="aurora aurora-one" />
       <div className="aurora aurora-two" />
 
-      {/* ── Navbar ── */}
-      <nav className="relative z-10 flex items-center justify-between px-6 py-5 lg:px-16 border-b border-[var(--app-color-border)]/40 bg-white/30 backdrop-blur-md">
+      {/* ── Navbar ──────────────────────────────────────────────── */}
+      <nav className="sticky top-0 z-50 flex items-center justify-between px-8 py-4 lg:px-20 border-b border-[var(--app-color-border)]/30 bg-white/50 backdrop-blur-xl">
         <Link to="/" className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--app-color-primary)] text-white shadow-md">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--app-color-primary)] text-white shadow-lg shadow-[var(--app-color-primary)]/20">
             <Package className="h-5 w-5" />
           </span>
-          <span className="text-base font-black uppercase tracking-widest text-[var(--app-color-text)]">
+          <span className="text-sm font-black uppercase tracking-[0.18em] text-[var(--app-color-text)]">
             AssetFlow
           </span>
         </Link>
-        <div className="flex items-center gap-3">
-          <Link to="/login" className="rounded-xl px-4 py-2 text-xs font-bold text-[var(--app-color-text)] hover:bg-white/60 transition-colors">
+        <div className="flex items-center gap-2">
+          <Link
+            to="/login"
+            className="rounded-lg px-4 py-2 text-sm font-semibold text-[var(--app-color-text-muted)] hover:text-[var(--app-color-text)] transition-colors"
+          >
             Sign In
           </Link>
-          <Link to="/register" className="rounded-xl bg-[var(--app-color-primary)] px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-[var(--app-color-primary-hover)] transition-colors">
-            Get Started
+          <Link
+            to="/register"
+            className="rounded-lg bg-[var(--app-color-primary)] px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-[var(--app-color-primary)]/25 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
+          >
+            Get Started →
           </Link>
         </div>
       </nav>
 
-      {/* ── Hero ── */}
-      <section className="relative z-10 mx-auto max-w-5xl px-6 py-20 text-center lg:py-28">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--app-color-border)] bg-white/80 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-[var(--app-color-primary)] shadow-sm backdrop-blur">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--app-color-primary)] animate-pulse" />
-          Enterprise Asset Flow ERP
+      {/* ── Hero ────────────────────────────────────────────────── */}
+      <section className="relative z-10 mx-auto max-w-6xl px-8 pt-24 pb-20 text-center lg:pt-32 lg:pb-28">
+        {/* Badge */}
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[var(--app-color-border)] bg-white/90 px-5 py-2 text-xs font-bold uppercase tracking-widest text-[var(--app-color-primary)] shadow-sm backdrop-blur">
+          <span className="h-2 w-2 rounded-full bg-[var(--app-color-primary)] animate-pulse" />
+          Odoo Hack 2025 — Enterprise Operations Track
         </div>
 
-        <h1 className="mb-6 text-4xl font-black leading-[1.15] tracking-tight text-[var(--app-color-text)] sm:text-5xl lg:text-6xl">
-          Centralized Operations for <br />
-          <span className="text-[var(--app-color-primary)]">Corporate Asset Management</span>
+        {/* Headline */}
+        <h1 className="mb-7 text-5xl font-black leading-[1.1] tracking-tight text-[var(--app-color-text)] sm:text-6xl lg:text-7xl">
+          Your Organization's Assets.<br />
+          <span className="text-[var(--app-color-primary)]">Finally Under Control.</span>
         </h1>
 
-        <p className="mx-auto mb-10 max-w-2xl text-base text-[var(--app-color-text-muted)] leading-relaxed">
-          Simplify how your organization tracks physical capital, schedules shared spaces, and approves maintenance logs. A unified ERP engine built for conflict-free resource allocation.
+        {/* Sub-headline */}
+        <p className="mx-auto mb-5 max-w-3xl text-xl text-[var(--app-color-text-muted)] leading-relaxed">
+          Spreadsheets break. Paper logs get lost. Shared equipment gets double-booked. <br className="hidden md:block" />
+          <strong className="text-[var(--app-color-text)] font-semibold">AssetFlow</strong> is the centralized ERP that replaces manual chaos with a structured, conflict-free operational pipeline — from first registration to final audit.
         </p>
 
-        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-          <Link to="/register" className="w-full sm:w-auto rounded-xl bg-[var(--app-color-primary)] px-6 py-3.5 text-xs font-bold text-white shadow-md hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02] flex items-center justify-center gap-2">
+        {/* CTA buttons */}
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center mt-10">
+          <Link
+            to="/register"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--app-color-primary)] px-8 py-4 text-sm font-bold text-white shadow-lg shadow-[var(--app-color-primary)]/30 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
+          >
             Launch Workspace <ArrowRight className="h-4 w-4" />
           </Link>
-          <Link to="/login" className="w-full sm:w-auto rounded-xl border border-[var(--app-color-border)] bg-white/70 px-6 py-3.5 text-xs font-bold text-[var(--app-color-text)] backdrop-blur hover:bg-white transition-colors">
-            Access System
+          <Link
+            to="/login"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[var(--app-color-border)] bg-white/80 px-8 py-4 text-sm font-semibold text-[var(--app-color-text)] backdrop-blur hover:bg-white transition-colors"
+          >
+            Sign In to Dashboard
           </Link>
         </div>
-      </section>
 
-      {/* ── System Management Flow (NEW SECTION) ── */}
-      <section className="relative z-10 mx-auto max-w-5xl px-6 pb-24">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl font-black tracking-tight text-[var(--app-color-text)]">
-            Overall System Operational Flow
-          </h2>
-          <p className="text-xs text-[var(--app-color-text-muted)] mt-1.5">
-            How physical assets and shared resources route through the lifecycle pipeline.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-4">
-          {FLOW_STEPS.map((item, idx) => (
-            <div key={idx} className="relative rounded-2xl border border-[var(--app-color-border)] bg-white/50 p-5 backdrop-blur-sm shadow-sm flex flex-col">
-              <div className="flex justify-between items-center mb-4">
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100/80">
-                  {item.icon}
-                </span>
-                <span className="text-xs font-mono font-black text-slate-300">{item.step}</span>
-              </div>
-              <h3 className="text-sm font-bold text-[var(--app-color-text)] mb-2">{item.title}</h3>
-              <p className="text-[11px] text-[var(--app-color-text-muted)] leading-relaxed flex-1">{item.desc}</p>
+        {/* Stats row */}
+        <div className="mt-16 grid grid-cols-2 gap-px rounded-2xl overflow-hidden border border-[var(--app-color-border)] bg-[var(--app-color-border)] sm:grid-cols-4 shadow-sm">
+          {STATS.map((s) => (
+            <div key={s.label} className="bg-white/80 backdrop-blur px-6 py-6 text-center">
+              <p className="text-3xl font-black text-[var(--app-color-primary)]">{s.value}</p>
+              <p className="text-xs text-[var(--app-color-text-muted)] mt-1 leading-snug">{s.label}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Enterprise Modules Grid ── */}
-      <section className="relative z-10 mx-auto max-w-5xl px-6 pb-24 border-t border-[var(--app-color-border)]/40 pt-20">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl font-black tracking-tight text-[var(--app-color-text)]">
-            Complete Operations Coverage
-          </h2>
-          <p className="text-xs text-[var(--app-color-text-muted)] mt-1.5">
-            Everything required to manage lifecycle tracking, scheduling coordination, and audits.
-          </p>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map((feat) => (
-            <div
-              key={feat.title}
-              className="rounded-2xl border border-[var(--app-color-border)] bg-white/80 p-6 backdrop-blur shadow-sm hover:shadow-md transition-all duration-300 flex flex-col"
-            >
-              <div className="mb-4">{feat.icon}</div>
-              <h3 className="mb-2 text-sm font-bold text-[var(--app-color-text)]">{feat.title}</h3>
-              <p className="text-[11px] text-[var(--app-color-text-muted)] leading-relaxed flex-1">{feat.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Footer ── */}
-      <footer className="relative z-10 border-t border-[var(--app-color-border)] bg-white/80 backdrop-blur pt-16 pb-8 text-xs text-[var(--app-color-text-muted)]">
-        <div className="mx-auto max-w-5xl px-6 grid gap-8 md:grid-cols-12 mb-12">
-          
-          {/* Brand col */}
-          <div className="md:col-span-4 space-y-3">
-            <div className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--app-color-primary)] text-white shadow-sm">
-                <Package className="h-4.5 w-4.5" />
-              </span>
-              <span className="font-black text-sm uppercase tracking-widest text-[var(--app-color-text)]">
-                AssetFlow
-              </span>
-            </div>
-            <p className="leading-relaxed text-[11px]">
-              A centralized ERP platform simplifying how organizations track physical capital and shared resources. Built for the Odoo Hack 2025 presentation.
+      {/* ── Full Asset Lifecycle Flow ────────────────────────────── */}
+      <section className="relative z-10 border-t border-[var(--app-color-border)]/40 py-24">
+        <div className="mx-auto max-w-6xl px-8">
+          {/* Section heading */}
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--app-color-primary)] mb-3">End-to-End System Architecture</p>
+            <h2 className="text-4xl font-black tracking-tight text-[var(--app-color-text)]">
+              How Assets Move Through the Organization
+            </h2>
+            <p className="mt-4 text-base text-[var(--app-color-text-muted)] max-w-2xl mx-auto leading-relaxed">
+              A complete six-stage pipeline governing every physical asset from initial onboarding through governance — far beyond conventional spreadsheet-era tracking.
             </p>
           </div>
 
-          {/* Features links */}
-          <div className="md:col-span-3 space-y-2.5">
-            <h4 className="font-bold text-[var(--app-color-text)] text-[11px] uppercase tracking-wider">System Modules</h4>
-            <ul className="space-y-1.5 text-[11px]">
-              <li><Link to="/login" className="hover:text-[var(--app-color-primary)]">Asset Directory</Link></li>
-              <li><Link to="/login" className="hover:text-[var(--app-color-primary)]">Allocations & Transfers</Link></li>
-              <li><Link to="/login" className="hover:text-[var(--app-color-primary)]">Shared Bookings</Link></li>
-              <li><Link to="/login" className="hover:text-[var(--app-color-primary)]">Audits & Maintenance</Link></li>
+          {/* Flow grid */}
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {FLOW.map((item, idx) => (
+              <div
+                key={idx}
+                className="group relative rounded-2xl border border-[var(--app-color-border)] bg-white/70 p-7 backdrop-blur-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              >
+                {/* Step + tag */}
+                <div className="flex items-center justify-between mb-5">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--app-color-primary)]/10 text-[var(--app-color-primary)]">
+                    {item.icon}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="rounded-full bg-[var(--app-color-primary)]/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--app-color-primary)]">
+                      {item.tag}
+                    </span>
+                    <span className="text-sm font-mono font-black text-slate-200">{item.step}</span>
+                  </div>
+                </div>
+                <h3 className="mb-2 text-base font-bold text-[var(--app-color-text)]">{item.label}</h3>
+                <p className="text-sm text-[var(--app-color-text-muted)] leading-relaxed">{item.detail}</p>
+
+                {/* Connector arrow except last */}
+                {idx < FLOW.length - 1 && (
+                  <ChevronRight className="absolute -right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--app-color-border)] hidden lg:block" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Complete Modules Grid ────────────────────────────────── */}
+      <section className="relative z-10 border-t border-[var(--app-color-border)]/40 py-24">
+        <div className="mx-auto max-w-6xl px-8">
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--app-color-primary)] mb-3">Platform Capabilities</p>
+            <h2 className="text-4xl font-black tracking-tight text-[var(--app-color-text)]">
+              Every Module Built for Scale
+            </h2>
+            <p className="mt-4 text-base text-[var(--app-color-text-muted)] max-w-xl mx-auto leading-relaxed">
+              Role-gated access, automated workflows, and real-time visibility across your entire asset operations.
+            </p>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {MODULES.map((m) => (
+              <div
+                key={m.title}
+                className="rounded-2xl border border-[var(--app-color-border)] bg-white/80 p-6 backdrop-blur hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              >
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--app-color-primary)]/10">
+                  {m.icon}
+                </div>
+                <h3 className="mb-2 text-sm font-bold text-[var(--app-color-text)]">{m.title}</h3>
+                <p className="text-xs text-[var(--app-color-text-muted)] leading-relaxed">{m.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA Banner ──────────────────────────────────────────── */}
+      <section className="relative z-10 border-t border-[var(--app-color-border)]/40 py-24">
+        <div className="mx-auto max-w-3xl px-8 text-center">
+          <div className="flex justify-center mb-6">
+            <CheckCircle2 className="h-12 w-12 text-[var(--app-color-primary)]" />
+          </div>
+          <h2 className="text-4xl font-black tracking-tight text-[var(--app-color-text)] mb-5">
+            Stop Managing Assets in Spreadsheets
+          </h2>
+          <p className="text-lg text-[var(--app-color-text-muted)] leading-relaxed mb-10">
+            Join the platform that gives every department head, asset manager, and employee a unified, real-time view of every asset in your organization.
+          </p>
+          <Link
+            to="/register"
+            className="inline-flex items-center gap-2 rounded-xl bg-[var(--app-color-primary)] px-10 py-4 text-sm font-bold text-white shadow-lg shadow-[var(--app-color-primary)]/30 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
+          >
+            Launch Your Workspace <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* ── Footer ──────────────────────────────────────────────── */}
+      <footer className="relative z-10 border-t border-[var(--app-color-border)]/60 bg-white/70 backdrop-blur-md pt-16 pb-8">
+        <div className="mx-auto max-w-6xl px-8 grid gap-12 md:grid-cols-12 mb-12">
+
+          {/* Brand */}
+          <div className="md:col-span-5 space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--app-color-primary)] text-white shadow-md">
+                <Package className="h-5 w-5" />
+              </span>
+              <span className="font-black text-sm uppercase tracking-[0.18em] text-[var(--app-color-text)]">
+                AssetFlow
+              </span>
+            </div>
+            <p className="text-sm text-[var(--app-color-text-muted)] leading-relaxed max-w-sm">
+              A centralized ERP platform digitizing how organizations track, allocate, and maintain physical assets and shared resources. Built for the Odoo Hack 2025 — Enterprise Operations track.
+            </p>
+          </div>
+
+          {/* System Modules */}
+          <div className="md:col-span-3 space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--app-color-text)]">System Modules</h4>
+            <ul className="space-y-2.5 text-sm text-[var(--app-color-text-muted)]">
+              <li><Link to="/login" className="hover:text-[var(--app-color-primary)] transition-colors">Asset Directory</Link></li>
+              <li><Link to="/login" className="hover:text-[var(--app-color-primary)] transition-colors">Allocations & Transfers</Link></li>
+              <li><Link to="/login" className="hover:text-[var(--app-color-primary)] transition-colors">Resource Bookings</Link></li>
+              <li><Link to="/login" className="hover:text-[var(--app-color-primary)] transition-colors">Maintenance</Link></li>
+              <li><Link to="/login" className="hover:text-[var(--app-color-primary)] transition-colors">Audits & Reports</Link></li>
             </ul>
           </div>
 
-          {/* Team Esc(Reality) info */}
-          <div className="md:col-span-5 space-y-2.5">
-            <h4 className="font-bold text-[var(--app-color-text)] text-[11px] uppercase tracking-wider">Team Esc(Reality);</h4>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="font-semibold text-slate-700">Saman Pandey</p>
-                <p className="text-[10px] text-slate-400">UI/UX & Documentation</p>
-                <a href="https://github.com/SamanPandey-in" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-[var(--app-color-primary)] hover:underline mt-1">
-                  <Globe className="h-3 w-3" /> GitHub <ExternalLink className="h-2 w-2" />
-                </a>
+          {/* Team */}
+          <div className="md:col-span-4 space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--app-color-text)]">Team Esc(Reality);</h4>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--app-color-primary)]/10 text-sm font-black text-[var(--app-color-primary)]">SP</span>
+                <div>
+                  <p className="text-sm font-semibold text-[var(--app-color-text)]">Saman Pandey</p>
+                  <p className="text-xs text-[var(--app-color-text-muted)]">UI/UX Design & Documentation</p>
+                  <a href="https://github.com/SamanPandey-in" target="_blank" rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-[var(--app-color-primary)] hover:underline mt-0.5">
+                    <Globe className="h-3 w-3" /> github.com/SamanPandey-in <ExternalLink className="h-2.5 w-2.5" />
+                  </a>
+                </div>
               </div>
-              <div>
-                <p className="font-semibold text-slate-700">Jagdish Padhi</p>
-                <p className="text-[10px] text-slate-400">Backend & Integration</p>
-                <a href="https://github.com/Jagdish-Padhi" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-[var(--app-color-primary)] hover:underline mt-1">
-                  <Globe className="h-3 w-3" /> GitHub <ExternalLink className="h-2 w-2" />
-                </a>
+              <div className="flex items-start gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--app-color-primary)]/10 text-sm font-black text-[var(--app-color-primary)]">JP</span>
+                <div>
+                  <p className="text-sm font-semibold text-[var(--app-color-text)]">Jagdish Padhi</p>
+                  <p className="text-xs text-[var(--app-color-text-muted)]">Backend, Database & Integration</p>
+                  <a href="https://github.com/Jagdish-Padhi" target="_blank" rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-[var(--app-color-primary)] hover:underline mt-0.5">
+                    <Globe className="h-3 w-3" /> github.com/Jagdish-Padhi <ExternalLink className="h-2.5 w-2.5" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom copyright */}
-        <div className="mx-auto max-w-5xl px-6 border-t border-[var(--app-color-border)]/40 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-[10px]">
-          <p>© 2026 AssetFlow Platform. All rights reserved.</p>
-          <p className="font-semibold text-slate-500">Built with ❤️ for Odoo Hack 2025 by Team Esc(Reality);</p>
+        {/* Bottom bar */}
+        <div className="mx-auto max-w-6xl px-8 border-t border-[var(--app-color-border)]/40 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-[var(--app-color-text-muted)]">
+          <p>© 2025 AssetFlow Platform. All rights reserved.</p>
+          <p>Built with ❤️ for <strong className="text-[var(--app-color-text)]">Odoo Hack 2025</strong> · Team Esc(Reality);</p>
         </div>
       </footer>
     </div>
