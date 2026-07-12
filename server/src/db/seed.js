@@ -1,12 +1,21 @@
 import 'dotenv/config';
 import { getDb, connectDatabase } from '../config/database.js';
-import { users, departments, categories, assets, allocations, maintenance } from './schema/index.js';
+import { users, departments, categories, assets, allocations, maintenance, bookingResources, bookings } from './schema/index.js';
 import bcrypt from 'bcrypt';
-
 
 async function seed() {
   await connectDatabase();
   const db = getDb();
+
+  console.log('🧹 Cleaning database...');
+  await db.delete(allocations);
+  await db.delete(maintenance);
+  await db.delete(assets);
+  await db.delete(bookings);
+  await db.delete(bookingResources);
+  await db.delete(users);
+  await db.delete(departments);
+  await db.delete(categories);
 
   console.log('🌱 Seeding database...');
 
@@ -26,7 +35,7 @@ async function seed() {
   console.log('Creating users...');
   const passwordHash = await bcrypt.hash('password123', 12);
   
-  await db.insert(users).values({
+  const [adminUser] = await db.insert(users).values({
     name: 'Admin User',
     email: 'admin@assetflow.com',
     passwordHash,
@@ -65,7 +74,7 @@ async function seed() {
     isBookable: false
   }).returning();
 
-  await db.insert(assets).values({
+  const [asset2] = await db.insert(assets).values({
     name: 'Ergonomic Chair',
     assetTag: 'AST-CHR-001',
     categoryId: furnitureCat.id,
@@ -103,6 +112,75 @@ async function seed() {
     description: 'Routine oil change and tire rotation',
     priority: 'medium',
     status: 'in_progress'
+  });
+
+  // 7. Create Booking Resources
+  console.log('Creating booking resources...');
+  const [roomA] = await db.insert(bookingResources).values({
+    name: 'Conference Room A',
+    type: 'meeting_room',
+    location: '1st Floor, Head Office',
+    capacity: 12,
+    description: 'Large conference room with smart board and projector',
+    requiresApproval: true,
+    createdByUserId: adminUser.id,
+  }).returning();
+
+  const [roomB] = await db.insert(bookingResources).values({
+    name: 'Collaborative Space B',
+    type: 'meeting_room',
+    location: '2nd Floor',
+    capacity: 6,
+    description: 'Casual meeting space with high table',
+    requiresApproval: false,
+    createdByUserId: managerUser.id,
+  }).returning();
+
+  const [projectorA] = await db.insert(bookingResources).values({
+    name: 'Mobile Projector Epson X39',
+    type: 'projector',
+    location: 'IT Equipment Storage Locker 3',
+    capacity: null,
+    description: 'Portable projector with HDMI cable',
+    requiresApproval: false,
+    createdByUserId: adminUser.id,
+  }).returning();
+
+  // 8. Create Bookings
+  console.log('Creating booking entries...');
+  const now = new Date();
+  
+  // Confirmed booking today
+  const bookingStart1 = new Date(now);
+  bookingStart1.setHours(now.getHours() + 1, 0, 0, 0);
+  const bookingEnd1 = new Date(bookingStart1);
+  bookingEnd1.setHours(bookingStart1.getHours() + 1);
+
+  await db.insert(bookings).values({
+    resourceId: roomB.id,
+    bookedByUserId: employeeUser.id,
+    title: 'Weekly Sync Meeting',
+    startTime: bookingStart1,
+    endTime: bookingEnd1,
+    status: 'upcoming',
+    notes: 'Reviewing progress on AssetFlow integration',
+  });
+
+  // Pending approval booking tomorrow
+  const bookingStart2 = new Date(now);
+  bookingStart2.setDate(now.getDate() + 1);
+  bookingStart2.setHours(10, 0, 0, 0);
+  const bookingEnd2 = new Date(bookingStart2);
+  bookingEnd2.setHours(12, 0, 0, 0);
+
+  await db.insert(bookings).values({
+    resourceId: roomA.id,
+    bookedByUserId: employeeUser.id,
+    title: 'Board of Directors Quarterly',
+    startTime: bookingStart2,
+    endTime: bookingEnd2,
+    status: 'pending',
+    notes: 'Requesting Room A since it has board-style layout',
   });
 
   console.log('✅ Seeding complete!');
