@@ -7,4 +7,5 @@ export * from './bookings.js';
 export * from './maintenance.js';
 export * from './audits.js';
 export * from './auditItems.js';
+export * from './transferRequests.js';
 export * from './logsAndNotifications.js';

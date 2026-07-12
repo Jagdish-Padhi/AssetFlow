@@ -7,6 +7,7 @@ export const audits = pgTable('audits', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
   departmentScopeId: uuid('department_scope_id').references(() => departments.id),
+  locationScope: text('location_scope'),
   startDate: timestamp('start_date', { withTimezone: true }).notNull(),
   endDate: timestamp('end_date', { withTimezone: true }),
   status: auditStatusEnum('status').default('open').notNull(),

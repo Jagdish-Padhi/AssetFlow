@@ -14,6 +14,7 @@ export const maintenance = pgTable('maintenance', {
   priority: maintenancePriorityEnum('priority').default('medium').notNull(),
   issueType: text('issue_type'),
   status: maintenanceStatusEnum('status').default('pending').notNull(),
+  photoUrl: text('photo_url'),
   completionNotes: text('completion_notes'),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
