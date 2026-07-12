@@ -17,7 +17,7 @@ import { RESOURCE_TYPE_LABELS, RESOURCE_TYPE_OPTIONS } from '../../utils/booking
 
 const EMPTY_FORM = { name: '', type: 'meeting_room', location: '', capacity: '', description: '', requiresApproval: false, isActive: true };
 
-export default function BookingResourcesPage() {
+export default function BookingResourcesPage({ hideHeader }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -107,11 +107,17 @@ export default function BookingResourcesPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Bookable Resources"
-        subtitle="Meeting rooms, projectors, vehicles, equipment, and labs available for booking."
-        action={<Button onClick={handleOpenCreate}><Plus className="h-4 w-4" /> Add Resource</Button>}
-      />
+      {!hideHeader ? (
+        <PageHeader
+          title="Bookable Resources"
+          subtitle="Meeting rooms, projectors, vehicles, equipment, and labs available for booking."
+          action={<Button onClick={handleOpenCreate}><Plus className="h-4 w-4" /> Add Resource</Button>}
+        />
+      ) : (
+        <div className="flex justify-end mb-4">
+          <Button onClick={handleOpenCreate}><Plus className="h-4 w-4" /> Add Resource</Button>
+        </div>
+      )}
 
       {!loading && items.length === 0 ? (
         <EmptyState

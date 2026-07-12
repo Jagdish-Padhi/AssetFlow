@@ -34,7 +34,7 @@ function rangeForView(viewMode, viewDate) {
   return { from: addDays(s, -7), to: addDays(s, 42) };
 }
 
-export default function BookingCalendarPage() {
+export default function BookingCalendarPage({ hideHeader }) {
   const [resources, setResources] = useState([]);
   const [resourceId, setResourceId] = useState('');
   const [viewMode, setViewMode] = useState('week');
@@ -143,7 +143,7 @@ export default function BookingCalendarPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Book a Resource" subtitle="Reserve meeting rooms, vehicles, equipment, and labs by time slot." />
+      {!hideHeader && <PageHeader title="Book a Resource" subtitle="Reserve meeting rooms, vehicles, equipment, and labs by time slot." />}
 
       <div className="flex flex-wrap items-end gap-4 rounded-2xl border border-(--app-color-border) bg-white p-4">
         <div className="min-w-[220px]">

@@ -16,9 +16,6 @@ const navigationItems = [
   { label: 'Audits',      path: '/dashboard/audits',      icon: FileSearch },
   { label: 'Departments', path: '/dashboard/departments', icon: Building2 },
   { label: 'Categories',  path: '/dashboard/categories',  icon: Tag },
-  { label: 'Resources', path: '/dashboard/resources', icon: Building2 },
-  { label: 'Book a Resource', path: '/dashboard/bookings/test', icon: CalendarClock },
-  { label: 'My Bookings', path: '/dashboard/bookings/mine', icon: ListChecks },
 ];
 
 export default function DashboardLayout() {

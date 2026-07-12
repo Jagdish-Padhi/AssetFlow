@@ -76,9 +76,6 @@ export default function AppRoutes() {
             <Route path="/dashboard/audits"      element={<AuditsPage />} />
             <Route path="/dashboard/departments" element={<DepartmentsPage />} />
             <Route path="/dashboard/categories"  element={<CategoriesPage />} />
-            <Route path="/dashboard/resources" element={<BookingResourcesPage />} />
-            <Route path="/dashboard/bookings/test" element={<BookingCalendarPage />} />
-            <Route path="/dashboard/bookings/mine" element={<MyBookingsPage />} />
             {/* Unknown dashboard sub-paths → overview */}
             <Route path="/dashboard/*"           element={<Navigate to="/dashboard" replace />} />
           </Route>
