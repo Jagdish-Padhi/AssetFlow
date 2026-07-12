@@ -27,10 +27,14 @@ function getEmailTransporter() {
 function getTwilioClient() {
   const sid = process.env.TWILIO_ACCOUNT_SID;
   const token = process.env.TWILIO_AUTH_TOKEN;
-  const from = process.env.TWILIO_WHATSAPP_FROM;
+  let from = process.env.TWILIO_WHATSAPP_FROM;
 
   if (!sid || !token || !from) {
     return null; // Not configured
+  }
+
+  if (!from.startsWith('whatsapp:')) {
+    from = `whatsapp:${from}`;
   }
 
   return {
@@ -72,27 +76,35 @@ export async function sendNotification({ userId, title, message, type = 'general
       text: `Hello ${user.name},\n\nThis is an automated alert from AssetFlow:\n\n${message}\n\nBest regards,\nThe AssetFlow Team`,
     };
 
-    transporter.sendMail(mailOptions)
-      .then((info) => console.log(`[Email] Dispatch successful: ${info.messageId}`))
-      .catch((err) => console.error('[Email] Dispatch failed:', err.message));
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`[Email] Dispatch successful: ${info.messageId}`);
+    } catch (err) {
+      console.error('[Email] Dispatch failed:', err.message);
+    }
   } else {
     console.log('[Email] Skip (BREVO_SMTP not fully configured)');
   }
 
   // 4. Dispatch WhatsApp via Twilio
   const twilio = getTwilioClient();
-  const testWhatsAppTo = process.env.TWILIO_WHATSAPP_TO;
+  let testWhatsAppTo = process.env.TWILIO_WHATSAPP_TO;
   if (twilio && testWhatsAppTo) {
-    // Note: For hackathon demo, we route all notifications to the test number
+    if (!testWhatsAppTo.startsWith('whatsapp:')) {
+      testWhatsAppTo = `whatsapp:${testWhatsAppTo}`;
+    }
     const whatsappBody = `*AssetFlow Alert*\n\n*${title}*\n${message}`;
 
-    twilio.client.messages.create({
-      body: whatsappBody,
-      from: twilio.from,
-      to: testWhatsAppTo,
-    })
-      .then((msg) => console.log(`[WhatsApp] Dispatch successful: ${msg.sid}`))
-      .catch((err) => console.error('[WhatsApp] Dispatch failed:', err.message));
+    try {
+      const msg = await twilio.client.messages.create({
+        body: whatsappBody,
+        from: twilio.from,
+        to: testWhatsAppTo,
+      });
+      console.log(`[WhatsApp] Dispatch successful: ${msg.sid}`);
+    } catch (err) {
+      console.error('[WhatsApp] Dispatch failed:', err.message);
+    }
   } else {
     console.log('[WhatsApp] Skip (TWILIO_WHATSAPP not fully configured)');
   }
