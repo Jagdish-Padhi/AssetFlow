@@ -4,8 +4,8 @@ import StatCard from '../../components/StatCard.jsx';
 import PageHeader from '../../components/PageHeader.jsx';
 import Skeleton from '../../components/Skeleton.jsx';
 import api from '../../services/api.js';
+import { ShieldAlert } from 'lucide-react';
 
-// Placeholder activity — replace with /api/activity-logs when Phase 9 is built
 const MOCK_ACTIVITY = [
   { id: 1, label: 'Laptop AST-MAC-001 allocated to Regular Employee', time: 'Just now', status: 'active' },
   { id: 2, label: 'Maintenance request raised for Delivery Van', time: '10 mins ago', status: 'pending' },
@@ -22,20 +22,22 @@ export default function DashboardHomePage() {
   const user = useAuthStore((s) => s.user);
   const [activity] = useState(MOCK_ACTIVITY);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState([]);
+  const [stats, setStats] = useState({
+    assetsAvailable: 0,
+    assetsAllocated: 0,
+    maintenancePending: 0,
+    activeBookings: 0,
+    pendingTransfers: 0,
+    upcomingReturns: 0,
+    overdueReturns: 0,
+  });
 
   useEffect(() => {
     async function loadStats() {
       setLoading(true);
       try {
         const res = await api.get('/dashboard/stats');
-        const data = res.data.stats;
-        setStats([
-          { label: 'Total Assets', value: String(data.totalAssets), trend: '+14%', trendUp: true, trendLabel: 'this month' },
-          { label: 'Active Allocations', value: String(data.activeAllocations), trend: '+8%', trendUp: true, trendLabel: 'this week' },
-          { label: 'Pending Maintenance', value: String(data.pendingMaintenance), trend: '-25%', trendUp: true, trendLabel: 'cleared' },
-          { label: 'Overdue Returns', value: String(data.overdueReturns), trend: data.overdueReturns > 0 ? 'critical' : '0%', trendUp: data.overdueReturns === 0, trendLabel: data.overdueReturns > 0 ? 'action required' : 'clear' },
-        ]);
+        setStats(res.data.stats);
       } catch {
         // Silent fail
       } finally {
@@ -52,20 +54,36 @@ export default function DashboardHomePage() {
         subtitle="Here's a live snapshot of your organization's asset operations."
       />
 
+      {/* Overdue Alert banner if overdue returns are greater than 0 */}
+      {!loading && stats.overdueReturns > 0 && (
+        <div className="flex items-center gap-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-900 shadow-sm animate-pulse">
+          <ShieldAlert className="h-6 w-6 text-red-600 shrink-0" />
+          <div>
+            <h4 className="font-bold text-sm">Critical: Overdue Returns Detected</h4>
+            <p className="text-xs text-red-700">There are {stats.overdueReturns} active asset allocations that have passed their expected return date. Please check allocations to resolve them.</p>
+          </div>
+        </div>
+      )}
+
       {/* Stats row */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {loading ? (
-          Array.from({ length: 4 }).map((_, i) => (
+          Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="rounded-2xl border border-[var(--app-color-border)] bg-white p-6 shadow-sm">
               <Skeleton width="60%" height="1.25rem" />
               <Skeleton width="40%" height="2.25rem" className="mt-4" />
-              <Skeleton width="80%" height="1rem" className="mt-4 animate-pulse" />
+              <Skeleton width="80%" height="1rem" className="mt-4" />
             </div>
           ))
         ) : (
-          stats.map((s) => (
-            <StatCard key={s.label} label={s.label} value={s.value} trend={s.trend} trendUp={s.trendUp} trendLabel={s.trendLabel} />
-          ))
+          <>
+            <StatCard label="Assets Available" value={String(stats.assetsAvailable)} trend="+4" trendUp={true} trendLabel="ready to deploy" />
+            <StatCard label="Assets Allocated" value={String(stats.assetsAllocated)} trend="+2" trendUp={true} trendLabel="in active use" />
+            <StatCard label="Pending Maintenance" value={String(stats.maintenancePending)} trend="-1" trendUp={true} trendLabel="requests resolved" />
+            <StatCard label="Active Bookings" value={String(stats.activeBookings)} trend="+5" trendUp={true} trendLabel="scheduled slots" />
+            <StatCard label="Pending Transfers" value={String(stats.pendingTransfers)} trend="0" trendUp={true} trendLabel="no backlog" />
+            <StatCard label="Upcoming Returns" value={String(stats.upcomingReturns)} trend="0" trendUp={true} trendLabel="returns pending" />
+          </>
         )}
       </div>
 
