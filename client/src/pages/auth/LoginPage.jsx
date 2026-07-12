@@ -63,7 +63,7 @@ export default function LoginPage() {
             />
             <div className="relative z-10 flex flex-col items-center">
               <div className="flex flex-col items-center gap-5">
-                <img src="/logo.png" alt="AssetFlow Logo" className="h-28 w-28 object-contain" style={{ filter: 'drop-shadow(0 0 24px rgba(15,200,180,0.35))' }} />
+                <img src="/logo.svg" alt="AssetFlow Logo" className="h-28 w-28 object-contain" style={{ filter: 'drop-shadow(0 0 24px rgba(15,200,180,0.35))' }} />
                 <div className="h-[2px] w-10 rounded-full" style={{ background: 'linear-gradient(90deg, transparent, #2dd4bf, transparent)' }} />
               </div>
               <div className="mt-7">
