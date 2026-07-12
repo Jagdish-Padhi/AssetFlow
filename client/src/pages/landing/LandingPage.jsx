@@ -145,19 +145,18 @@ export default function LandingPage() {
             {/* Badge */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--app-color-border)] bg-white/90 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[var(--app-color-primary)] shadow-sm backdrop-blur">
               <span className="h-2 w-2 rounded-full bg-[var(--app-color-primary)] animate-pulse" />
-              Odoo Hackathon 2026 — Enterprise Operations Track
+              Centralized Asset Intelligence
             </div>
 
             {/* Headline */}
-            <h1 className="mb-6 text-4xl font-black leading-[1.1] tracking-tight text-[var(--app-color-text)] sm:text-5xl lg:text-6xl">
-              Your Organization's Assets.<br />
-              <span className="text-[var(--app-color-primary)]">Finally Under Control.</span>
+            <h1 className="mb-6 text-4xl font-black leading-[1.15] tracking-tight text-[var(--app-color-text)] sm:text-5xl lg:text-6xl">
+              From Asset Registration<br />
+              <span className="text-[var(--app-color-primary)]">To Operational Excellence.</span>
             </h1>
 
             {/* Sub-headline */}
             <p className="mb-8 text-base text-[var(--app-color-text-muted)] leading-relaxed max-w-xl">
-              Spreadsheets break. Paper logs get lost. Shared equipment gets double-booked. <br className="hidden md:block" />
-              <strong className="text-[var(--app-color-text)] font-semibold">AssetFlow</strong> is the centralized ERP that replaces manual chaos with a structured, conflict-free operational pipeline — from first registration to final audit.
+              AssetFlow digitizes every stage of the asset lifecycle—from registration and allocation to maintenance, audits, and retirement—helping organizations improve efficiency, reduce conflicts, and make data-driven operational decisions.
             </p>
 
             {/* CTA buttons */}
@@ -179,10 +178,10 @@ export default function LandingPage() {
 
           {/* Right Column (TowerLoader Animation) */}
           <div className="lg:col-span-5 flex justify-center items-center py-8 lg:py-0">
-            <div className="relative flex items-center justify-center w-72 h-72 rounded-3xl bg-white/30 border border-white/40 shadow-inner backdrop-blur-md">
+            <div className="relative flex items-center justify-center w-72 h-72">
               {/* Decorative rings */}
-              <div className="absolute inset-4 rounded-full border border-dashed border-[var(--app-color-border)]/50 animate-[spin_20s_linear_infinite]" />
-              <div className="absolute inset-12 rounded-full border border-dashed border-[var(--app-color-primary)]/20 animate-[spin_30s_linear_infinite_reverse]" />
+              <div className="absolute inset-4 rounded-full border border-dashed border-[var(--app-color-border)]/40 animate-[spin_20s_linear_infinite]" />
+              <div className="absolute inset-12 rounded-full border border-dashed border-[var(--app-color-primary)]/10 animate-[spin_30s_linear_infinite_reverse]" />
               
               <div className="scale-[2.5] relative -top-3">
                 <TowerLoader />
