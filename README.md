@@ -9,9 +9,9 @@
 ## 🔗 Quick Links
 
 
-| 🚀 Live Demo | 🎥 Video Walkthrough | 📊 Presentation |
-|:------------:|:-------------------:|:---------------:|
-| [**Launch App**](#) | [**Watch Demo**](#) | [**View PPT**](#) |
+| 🚀 Live Demo | 🎥 Video Walkthrough |
+|:------------:|:-------------------:|
+| [**Launch App**](#) | [**Watch Demo**](#) |
 
 ---
 
@@ -126,8 +126,8 @@ VITE_API_URL=http://localhost:5000/api
 
 | Member | Role |
 |--------|------|
-| [**Saman Pandey**](https://github.com/SamanPandey-in) | UI/UX Design & Documentation |
-| [**Jagdish Padhi**](https://github.com/Jagdish-Padhi) | Backend, Database & Integration |
+| [**Saman Pandey**](https://github.com/SamanPandey-in) | Full Stack & Demo |
+| [**Jagdish Padhi**](https://github.com/Jagdish-Padhi) | Full Stack & Docs |
 
 ---
 

@@ -6,6 +6,15 @@
 	box-sizing: border-box;
 }
 
+/* ── Force white text on any solid primary-color background ── */
+/* This overrides the global :root color for buttons/links on dark backgrounds */
+.btn-primary-solid,
+a.btn-primary-solid,
+button.btn-primary-solid {
+	color: #ffffff !important;
+}
+
+
 :root {
 	font-family: var(--app-font-sans);
 	color: var(--app-color-text);

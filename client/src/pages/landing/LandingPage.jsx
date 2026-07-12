@@ -128,7 +128,7 @@ export default function LandingPage() {
           </Link>
           <Link
             to="/register"
-            className="rounded-lg bg-[var(--app-color-primary)] px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-[var(--app-color-primary)]/25 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
+            className="btn-primary-solid rounded-lg bg-[var(--app-color-primary)] px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-[var(--app-color-primary)]/25 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
           >
             Get Started →
           </Link>
@@ -159,7 +159,7 @@ export default function LandingPage() {
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center mt-10">
           <Link
             to="/register"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--app-color-primary)] px-8 py-4 text-sm font-bold text-white shadow-lg shadow-[var(--app-color-primary)]/30 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
+            className="btn-primary-solid w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--app-color-primary)] px-8 py-4 text-sm font-bold text-white shadow-lg shadow-[var(--app-color-primary)]/30 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
           >
             Launch Workspace <ArrowRight className="h-4 w-4" />
           </Link>
@@ -272,7 +272,7 @@ export default function LandingPage() {
           </p>
           <Link
             to="/register"
-            className="inline-flex items-center gap-2 rounded-xl bg-[var(--app-color-primary)] px-10 py-4 text-sm font-bold text-white shadow-lg shadow-[var(--app-color-primary)]/30 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
+            className="btn-primary-solid inline-flex items-center gap-2 rounded-xl bg-[var(--app-color-primary)] px-10 py-4 text-sm font-bold text-white shadow-lg shadow-[var(--app-color-primary)]/30 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
           >
             Launch Your Workspace <ArrowRight className="h-4 w-4" />
           </Link>
@@ -318,7 +318,7 @@ export default function LandingPage() {
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--app-color-primary)]/10 text-sm font-black text-[var(--app-color-primary)]">SP</span>
                 <div>
                   <p className="text-sm font-semibold text-[var(--app-color-text)]">Saman Pandey</p>
-                  <p className="text-xs text-[var(--app-color-text-muted)]">UI/UX Design & Documentation</p>
+                  <p className="text-xs text-[var(--app-color-text-muted)]">Full Stack Developer</p>
                   <a href="https://github.com/SamanPandey-in" target="_blank" rel="noreferrer"
                     className="inline-flex items-center gap-1 text-xs text-[var(--app-color-primary)] hover:underline mt-0.5">
                     <Globe className="h-3 w-3" /> github.com/SamanPandey-in <ExternalLink className="h-2.5 w-2.5" />
@@ -329,7 +329,7 @@ export default function LandingPage() {
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--app-color-primary)]/10 text-sm font-black text-[var(--app-color-primary)]">JP</span>
                 <div>
                   <p className="text-sm font-semibold text-[var(--app-color-text)]">Jagdish Padhi</p>
-                  <p className="text-xs text-[var(--app-color-text-muted)]">Backend, Database & Integration</p>
+                  <p className="text-xs text-[var(--app-color-text-muted)]">Full Stack Developer</p>
                   <a href="https://github.com/Jagdish-Padhi" target="_blank" rel="noreferrer"
                     className="inline-flex items-center gap-1 text-xs text-[var(--app-color-primary)] hover:underline mt-0.5">
                     <Globe className="h-3 w-3" /> github.com/Jagdish-Padhi <ExternalLink className="h-2.5 w-2.5" />
