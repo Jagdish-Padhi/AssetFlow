@@ -3,6 +3,7 @@ export * from './departments.js';
 export * from './categories.js';
 export * from './assets.js';
 export * from './allocations.js';
+export * from './bookingResources.js';
 export * from './bookings.js';
 export * from './maintenance.js';
 export * from './audits.js';
