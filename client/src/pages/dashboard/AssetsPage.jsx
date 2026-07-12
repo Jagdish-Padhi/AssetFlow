@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Package, Plus, Pencil, Trash2, QrCode } from 'lucide-react';
+import { Package, Plus, Pencil, Trash2, QrCode, Cpu } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 import api from '../../services/api.js';
@@ -46,6 +46,22 @@ const STATUS_STYLES = {
   disposed: 'bg-gray-200 text-gray-500',
 };
 
+const DEFAULT_CATEGORY_FIELDS = {
+  laptops: [
+    { name: 'ram', label: 'RAM (GB)', type: 'number', placeholder: 'e.g. 16' },
+    { name: 'storage', label: 'Storage (GB)', type: 'number', placeholder: 'e.g. 512' },
+    { name: 'os', label: 'Operating System', type: 'text', placeholder: 'e.g. macOS / Windows 11' },
+  ],
+  vehicles: [
+    { name: 'licensePlate', label: 'License Plate', type: 'text', placeholder: 'e.g. TX-987-AB' },
+    { name: 'mileage', label: 'Mileage (km)', type: 'number', placeholder: 'e.g. 45000' },
+  ],
+  furniture: [
+    { name: 'dimensions', label: 'Dimensions', type: 'text', placeholder: 'e.g. 120cm x 80cm' },
+    { name: 'material', label: 'Material', type: 'text', placeholder: 'e.g. Oak Wood / Mesh' },
+  ],
+};
+
 export default function AssetsPage() {
   const user = useAuthStore((s) => s.user);
   const isAdminOrManager = user?.role === 'admin' || user?.role === 'asset_manager';
@@ -58,6 +74,7 @@ export default function AssetsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [formData, setFormData] = useState(EMPTY_FORM);
+  const [customFields, setCustomFields] = useState({});
   const [saving, setSaving] = useState(false);
   const [editId, setEditId] = useState(null);
 
@@ -90,6 +107,7 @@ export default function AssetsPage() {
   const handleOpenCreate = () => {
     setEditId(null);
     setFormData(EMPTY_FORM);
+    setCustomFields({});
     setModalOpen(true);
   };
 
@@ -107,6 +125,7 @@ export default function AssetsPage() {
       isBookable: item.isBookable || false,
       remarks: item.remarks || '',
     });
+    setCustomFields(item.customFields || {});
     setModalOpen(true);
   };
 
@@ -146,6 +165,7 @@ export default function AssetsPage() {
         acquisitionCost: formData.acquisitionCost ? Number(formData.acquisitionCost) : null,
         categoryId: formData.categoryId || null,
         departmentId: formData.departmentId || null,
+        customFields: Object.keys(customFields).length > 0 ? customFields : null,
       };
 
       if (editId) {
@@ -175,16 +195,46 @@ export default function AssetsPage() {
     }
   };
 
+  const selectedCategory = categories.find((c) => c.id === formData.categoryId);
+  const selectedCatName = selectedCategory?.name?.toLowerCase() || '';
+  let dynamicFormFields = [];
+  if (selectedCatName.includes('laptop')) {
+    dynamicFormFields = DEFAULT_CATEGORY_FIELDS.laptops;
+  } else if (selectedCatName.includes('vehicle') || selectedCatName.includes('car') || selectedCatName.includes('van')) {
+    dynamicFormFields = DEFAULT_CATEGORY_FIELDS.vehicles;
+  } else if (selectedCatName.includes('furniture') || selectedCatName.includes('chair') || selectedCatName.includes('desk')) {
+    dynamicFormFields = DEFAULT_CATEGORY_FIELDS.furniture;
+  }
+
   const columns = [
     {
       key: 'name',
       label: 'Asset',
-      render: (v, row) => (
-        <div>
-          <p className="font-semibold text-(--app-color-text)">{v}</p>
-          <p className="text-xs font-mono text-(--app-color-text-muted)">{row.assetTag}</p>
-        </div>
-      ),
+      render: (v, row) => {
+        const custom = row.customFields || {};
+        const specList = [];
+        if (custom.ram) specList.push(`${custom.ram}GB RAM`);
+        if (custom.storage) specList.push(`${custom.storage}GB SSD`);
+        if (custom.os) specList.push(custom.os);
+        if (custom.licensePlate) specList.push(custom.licensePlate);
+        if (custom.mileage) specList.push(`${Number(custom.mileage).toLocaleString()} km`);
+        if (custom.dimensions) specList.push(custom.dimensions);
+        if (custom.material) specList.push(custom.material);
+
+        return (
+          <div className="space-y-1">
+            <p className="font-semibold text-(--app-color-text)">{v}</p>
+            <div className="flex flex-wrap gap-1.5 items-center">
+              <span className="text-xs font-mono text-(--app-color-text-muted)">{row.assetTag}</span>
+              {specList.map((spec, idx) => (
+                <span key={idx} className="inline-flex items-center rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">
+                  {spec}
+                </span>
+              ))}
+            </div>
+          </div>
+        );
+      },
     },
     {
       key: 'categoryId',
@@ -311,6 +361,7 @@ export default function AssetsPage() {
       >
         <div className="space-y-4">
           <Input label="Asset Name" name="name" required value={formData.name} onChange={handleChange} placeholder="e.g. Dell Latitude 5420" />
+          
           <div className="grid grid-cols-2 gap-4">
             <Select
               label="Category"
@@ -329,6 +380,33 @@ export default function AssetsPage() {
               placeholder="Select Department"
             />
           </div>
+
+          {/* Dynamic custom specification fields */}
+          {dynamicFormFields.length > 0 && (
+            <div className="border-t border-dashed border-[var(--app-color-border)] pt-4 space-y-3">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--app-color-primary)]">
+                <Cpu className="h-4 w-4" /> Category Specifications
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {dynamicFormFields.map((field) => (
+                  <Input
+                    key={field.name}
+                    label={field.label}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    value={customFields[field.name] || ''}
+                    onChange={(e) =>
+                      setCustomFields((prev) => ({
+                        ...prev,
+                        [field.name]: e.target.value,
+                      }))
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-4">
             <Input label="Serial Number" name="serialNumber" value={formData.serialNumber} onChange={handleChange} placeholder="e.g. CN-0XXXXX" />
             <Select label="Condition" name="condition" value={formData.condition} onChange={handleChange} options={CONDITION_OPTIONS} />
