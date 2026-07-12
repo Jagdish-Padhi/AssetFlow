@@ -60,7 +60,7 @@ export default function DashboardLayout() {
     <div className="flex min-h-screen print:block print:bg-white print:min-h-0" style={{ background: 'var(--app-gradient-shell)' }}>
       <aside className="print:hidden sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-(--app-color-border) bg-white/90 backdrop-blur">
         <Link to="/" className="flex items-center gap-3 px-6 py-5 hover:opacity-80">
-          <img src="/logo.svg" alt="AssetFlow Logo" className="h-8 w-8 object-contain" />
+          <img src="/logo.svg" alt="AssetFlow Logo" className="h-10 w-10 object-contain" />
           <BrandLogo size="md" />
         </Link>
 

@@ -23,7 +23,7 @@ const Sidebar = ({
 		>
 			{/* Logo Section */}
 			<Link to='/' className={`flex items-center gap-3 p-6 hover:opacity-80 transition-opacity ${isCollapsed ? 'justify-center p-4' : ''}`}>
-				<img src='/logo.svg' alt='Logo' className='h-10 w-10 object-contain' />
+				<img src='/logo.svg' alt='Logo' className='h-11 w-11 object-contain' />
 				{!isCollapsed && (
 					<span className='text-sm font-bold uppercase tracking-[0.2em] text-[var(--app-color-text)]'>
 						Your App
