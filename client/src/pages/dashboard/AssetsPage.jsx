@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Package, Plus, Pencil, Trash2 } from 'lucide-react';
+import { Package, Plus, Pencil, Trash2, QrCode } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 import api from '../../services/api.js';
@@ -14,6 +14,7 @@ import TextArea from '../../components/TextArea.jsx';
 import Toggle from '../../components/Toggle.jsx';
 import Badge from '../../components/Badge.jsx';
 import EmptyState from '../../components/EmptyState.jsx';
+import QrScannerModal from '../../components/QrScannerModal.jsx';
 
 const EMPTY_FORM = {
   name: '',
@@ -55,6 +56,7 @@ export default function AssetsPage() {
   const [loading, setLoading] = useState(true);
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [qrModalOpen, setQrModalOpen] = useState(false);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -106,6 +108,28 @@ export default function AssetsPage() {
       remarks: item.remarks || '',
     });
     setModalOpen(true);
+  };
+
+  const handleScanSuccess = (decodedText) => {
+    setQrModalOpen(false);
+    
+    // Normalize string tag
+    const scannedTag = decodedText.trim().toUpperCase();
+    console.log('Decoded tag:', scannedTag);
+
+    // Look for exact match in our assets
+    const matchedAsset = assets.find(
+      (a) => a.assetTag?.toUpperCase() === scannedTag || a.serialNumber?.toUpperCase() === scannedTag
+    );
+
+    if (matchedAsset) {
+      toast.success(`Scanned: ${matchedAsset.name}`);
+      handleOpenEdit(matchedAsset);
+    } else {
+      // Fallback: Apply filter search directly
+      setSearch(scannedTag);
+      toast.success(`Filter applied: searching for tag "${scannedTag}"`);
+    }
   };
 
   const handleChange = (e) => {
@@ -210,11 +234,18 @@ export default function AssetsPage() {
       <PageHeader
         title="Assets"
         subtitle="Register, track, and manage your organization's physical assets."
-        action={isAdminOrManager && (
-          <Button onClick={handleOpenCreate}>
-            <Plus className="h-4 w-4" /> Add Asset
-          </Button>
-        )}
+        action={
+          <div className="flex gap-2">
+            <Button variant="secondary" onClick={() => setQrModalOpen(true)}>
+              <QrCode className="h-4 w-4" /> Scan QR
+            </Button>
+            {isAdminOrManager && (
+              <Button onClick={handleOpenCreate}>
+                <Plus className="h-4 w-4" /> Add Asset
+              </Button>
+            )}
+          </div>
+        }
       />
 
       <div className="flex flex-wrap gap-4 rounded-2xl border border-(--app-color-border) bg-white p-4">
@@ -259,6 +290,13 @@ export default function AssetsPage() {
           <Table columns={columns} data={assets} isLoading={loading} emptyMessage="No assets found." />
         </div>
       )}
+
+      {/* QR scanner modal */}
+      <QrScannerModal
+        isOpen={qrModalOpen}
+        onClose={() => setQrModalOpen(false)}
+        onScanSuccess={handleScanSuccess}
+      />
 
       <Modal
         isOpen={modalOpen}

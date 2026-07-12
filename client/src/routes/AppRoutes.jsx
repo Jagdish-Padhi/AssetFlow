@@ -23,6 +23,7 @@ import DepartmentsPage      from '../pages/dashboard/DepartmentsPage.jsx';
 import CategoriesPage       from '../pages/dashboard/CategoriesPage.jsx';
 import NotificationsPage    from '../pages/dashboard/NotificationsPage.jsx';
 import EmployeesPage        from '../pages/dashboard/EmployeesPage.jsx';
+import ReportsPage          from '../pages/dashboard/ReportsPage.jsx';
 import BookingResourcesPage from '../pages/dashboard/BookingResourcesPage.jsx';
 import BookingCalendarPage from '../pages/dashboard/BookingCalendarPage.jsx';
 import MyBookingsPage from '../pages/dashboard/MyBookingsPage.jsx';
@@ -80,6 +81,7 @@ export default function AppRoutes() {
             <Route path="/dashboard/categories"  element={<CategoriesPage />} />
             <Route path="/dashboard/notifications" element={<NotificationsPage />} />
             <Route path="/dashboard/employees" element={<EmployeesPage />} />
+            <Route path="/dashboard/reports" element={<ReportsPage />} />
             {/* Unknown dashboard sub-paths → overview */}
             <Route path="/dashboard/*"           element={<Navigate to="/dashboard" replace />} />
           </Route>
