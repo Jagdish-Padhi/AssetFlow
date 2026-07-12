@@ -189,6 +189,7 @@ export default function AssetsPage() {
   ];
 
   if (isAdminOrManager) {
+    const isAdmin = user?.role === 'admin';
     columns.push({
       key: 'id',
       label: 'Actions',
@@ -197,9 +198,11 @@ export default function AssetsPage() {
           <Button size="sm" variant="ghost" onClick={() => handleOpenEdit(row)}>
             <Pencil className="h-4 w-4" />
           </Button>
-          <Button size="sm" variant="ghost" onClick={() => handleDelete(row)}>
-            <Trash2 className="h-4 w-4 text-red-500" />
-          </Button>
+          {isAdmin && (
+            <Button size="sm" variant="ghost" onClick={() => handleDelete(row)}>
+              <Trash2 className="h-4 w-4 text-red-500" />
+            </Button>
+          )}
         </div>
       ),
     });

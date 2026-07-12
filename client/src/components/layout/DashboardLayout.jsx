@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, LogOut, Package, Users, Building2, Tag, Wrench, CalendarCheck, FileSearch, CalendarClock, ListChecks, Bell } from 'lucide-react';
+import { LayoutDashboard, LogOut, Package, Users, Building2, Tag, Wrench, CalendarCheck, FileSearch, BarChart3, ListChecks, Bell } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 import api from '../../services/api.js';
@@ -8,23 +8,33 @@ import useAuthStore from '../../store/auth.store.js';
 import { formatTimeRange } from '../../utils/formatDate.js';
 
 const navigationItems = [
-  { label: 'Overview',    path: '/dashboard',             icon: LayoutDashboard },
-  { label: 'Assets',      path: '/dashboard/assets',      icon: Package },
-  { label: 'Employees',   path: '/dashboard/employees',   icon: Users },
-  { label: 'Allocations', path: '/dashboard/allocations', icon: ListChecks },
-  { label: 'Bookings',    path: '/dashboard/bookings',    icon: CalendarCheck },
-  { label: 'Maintenance', path: '/dashboard/maintenance', icon: Wrench },
-  { label: 'Audits',      path: '/dashboard/audits',      icon: FileSearch },
-  { label: 'Departments', path: '/dashboard/departments', icon: Building2 },
-  { label: 'Categories',  path: '/dashboard/categories',  icon: Tag },
-  { label: 'Notifications', path: '/dashboard/notifications', icon: Bell },
+  { label: 'Overview',            path: '/dashboard',               icon: LayoutDashboard },
+  { label: 'Assets',              path: '/dashboard/assets',        icon: Package },
+  { label: 'Allocations',         path: '/dashboard/allocations',   icon: ListChecks },
+  { label: 'Bookings',            path: '/dashboard/bookings',      icon: CalendarCheck },
+  { label: 'Maintenance',         path: '/dashboard/maintenance',   icon: Wrench },
+  { label: 'Audits',              path: '/dashboard/audits',        icon: FileSearch },
+  { label: 'Reports & Analytics', path: '/dashboard/reports',       icon: BarChart3 },
+  { label: 'Notifications',       path: '/dashboard/notifications', icon: Bell },
+  { label: 'Employees',           path: '/dashboard/employees',     icon: Users,   minRole: 'department_head' },
+  { label: 'Departments',         path: '/dashboard/departments',   icon: Building2 },
+  { label: 'Categories',          path: '/dashboard/categories',    icon: Tag },
 ];
+
+const ROLE_LEVELS = { employee: 0, department_head: 1, asset_manager: 2, technician: 2, admin: 3 };
+
+function hasAccess(userRole, minRole) {
+  if (!minRole) return true;
+  return (ROLE_LEVELS[userRole] ?? 0) >= (ROLE_LEVELS[minRole] ?? 0);
+}
 
 export default function DashboardLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
   const clearAuth = useAuthStore((s) => s.clearAuth);
+
+  const visibleNavItems = navigationItems.filter((item) => hasAccess(user?.role, item.minRole));
 
   const handleLogout = async () => {
     try {
@@ -70,7 +80,7 @@ export default function DashboardLayout() {
 
         {/* Nav items */}
         <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-4">
-          {navigationItems.map(({ label, path, icon: Icon }) => {
+          {visibleNavItems.map(({ label, path, icon: Icon }) => {
             const active = location.pathname === path;
             return (
               <Link
