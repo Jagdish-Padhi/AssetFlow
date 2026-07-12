@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, LogOut, Package, Users, Building2, Tag, Wrench, CalendarCheck, FileSearch } from 'lucide-react';
+import { LayoutDashboard, LogOut, Package, Users, Building2, Tag, Wrench, CalendarCheck, FileSearch, CalendarClock, ListChecks } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 import api from '../../services/api.js';
 import useAuthStore from '../../store/auth.store.js';
+import { formatTimeRange } from '../../utils/formatDate.js';
 
 const navigationItems = [
   { label: 'Overview',    path: '/dashboard',             icon: LayoutDashboard },
@@ -15,6 +16,9 @@ const navigationItems = [
   { label: 'Audits',      path: '/dashboard/audits',      icon: FileSearch },
   { label: 'Departments', path: '/dashboard/departments', icon: Building2 },
   { label: 'Categories',  path: '/dashboard/categories',  icon: Tag },
+  { label: 'Resources', path: '/dashboard/resources', icon: Building2 },
+  { label: 'Book a Resource', path: '/dashboard/bookings/test', icon: CalendarClock },
+  { label: 'My Bookings', path: '/dashboard/bookings/mine', icon: ListChecks },
 ];
 
 export default function DashboardLayout() {
@@ -32,11 +36,25 @@ export default function DashboardLayout() {
     navigate('/login');
   };
 
+  useEffect(() => {
+    let cancelled = false;
+    async function checkReminders() {
+      try {
+        const res = await api.get('/bookings/reminders/due', { params: { withinMinutes: 30 } });
+        if (cancelled) return;
+        (res.data.items || []).forEach((booking) => {
+          toast(`Starting soon: "${booking.title}" (${formatTimeRange(booking.startTime, booking.endTime)})`, { icon: '⏰' });
+        });
+      } catch { /* silent */ }
+    }
+    checkReminders();
+    const interval = setInterval(checkReminders, 60000);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, []);
+
   return (
     <div className="flex min-h-screen" style={{ background: 'var(--app-gradient-shell)' }}>
-      {/* ── Sidebar ── */}
       <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-(--app-color-border) bg-white/90 backdrop-blur">
-        {/* Logo */}
         <Link to="/" className="flex items-center gap-3 px-6 py-5 hover:opacity-80">
           <img src="/logo.png" alt="AssetFlow Logo" className="h-8 w-8 object-contain" />
           <span className="text-sm font-black uppercase tracking-widest text-(--app-color-text)">AssetFlow</span>
@@ -72,7 +90,6 @@ export default function DashboardLayout() {
           })}
         </nav>
 
-        {/* User / logout footer */}
         <div className="border-t border-(--app-color-border) p-4 space-y-2">
           <div className="flex items-center gap-3 rounded-xl px-3 py-2">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-(--app-color-primary-soft) text-xs font-black text-(--app-color-primary)">
@@ -93,7 +110,6 @@ export default function DashboardLayout() {
         </div>
       </aside>
 
-      {/* ── Main content ── */}
       <main className="flex-1 overflow-y-auto p-6 lg:p-8">
         <Outlet />
       </main>

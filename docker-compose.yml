@@ -1,11 +1,12 @@
 # ─── Local Docker Compose ────────────────────────────────────────────────────
-# Spins up PostgreSQL locally for development.
+# Spins up PostgreSQL, server, and client for local development.
 # Production → point DATABASE_URL at Neon cloud.
 #
 # Usage:
-#   docker compose up -d       # start postgres in background
+#   docker compose up -d       # start everything in background
 #   docker compose down        # stop
 #   docker compose down -v     # stop + delete volume (wipes data)
+#   docker compose logs -f     # follow logs
 
 version: '3.9'
 
@@ -16,7 +17,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: app_db   # TODO: rename to match your app
+      POSTGRES_DB: app_db
     ports:
       - '5432:5432'
     volumes:
@@ -26,6 +27,27 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  server:
+    build: ./server
+    restart: unless-stopped
+    env_file:
+      - ./server/.env
+    ports:
+      - '5000:5000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/app_db
+
+  client:
+    build: ./client
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    depends_on:
+      - server
 
 volumes:
   pg_data:
