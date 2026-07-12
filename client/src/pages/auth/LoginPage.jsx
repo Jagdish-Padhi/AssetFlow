@@ -1,11 +1,3 @@
-/**
- * LoginPage
- *
- * TODO items:
- *  - Replace logo.png in /public with your logo
- *  - Replace ALL text marked with TODO below
- *  - Update the feature list bullets to reflect your app's value props
- */
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -18,12 +10,13 @@ import useAuthStore from '../../store/auth.store.js';
 
 const initialForm = { email: '', password: '' };
 
-// TODO: Replace these with your app's real feature highlights
 const FEATURE_BULLETS = [
-  'Feature one — describe your core value',
-  'Feature two — describe a key capability',
-  'Feature three — describe a differentiator',
-  'Feature four — describe another benefit',
+  'Full Asset Lifecycle Tracking',
+  'Conflict-Free Resource Booking',
+  'Maintenance Request Workflows',
+  'Role-Based Access Control',
+  'Scheduled Audit Cycles',
+  'Real-Time Activity Dashboard',
 ];
 
 export default function LoginPage() {
@@ -67,19 +60,16 @@ export default function LoginPage() {
             <div className="noise-overlay pointer-events-none opacity-20" />
             <div className="relative z-10 flex flex-col items-center">
               <div className="flex flex-col items-center gap-6">
-                {/* TODO: Replace /logo.png with your logo */}
-                <img src="/logo.png" alt="App Logo" className="h-36 w-36 object-contain drop-shadow-2xl" />
+                <img src="/logo.png" alt="AssetFlow Logo" className="h-36 w-36 object-contain drop-shadow-2xl" />
                 <div className="h-[3px] w-16 rounded-full bg-emerald-400" />
               </div>
               <div className="mt-8">
-                {/* TODO: Replace with your app tagline */}
                 <h1 className="text-4xl font-black uppercase tracking-tighter italic lg:text-5xl">
-                  Your Tagline <br />
-                  <span className="text-teal-400">Goes Right Here.</span>
+                  Enterprise Assets,<br />
+                  <span className="text-teal-400">Fully In Control.</span>
                 </h1>
-                {/* TODO: Replace with your app's one-liner */}
                 <p className="mx-auto mt-4 max-w-sm text-lg font-bold leading-tight text-white/70">
-                  Your app's value proposition goes here — one punchy sentence.
+                  AssetFlow helps your organization track, allocate, and maintain physical assets — all in one place.
                 </p>
               </div>
               <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-4 px-4 text-left">
@@ -96,9 +86,8 @@ export default function LoginPage() {
               </div>
             </div>
             <div className="absolute bottom-6 left-0 right-0 z-10 flex items-center justify-between px-10 text-[9px] font-black uppercase tracking-[0.3em] text-white/25">
-              {/* TODO: Replace with your app name and year */}
-              <p>© 2026 Your App Name</p>
-              <p>Subtitle here</p>
+              <p>© 2025 AssetFlow</p>
+              <p>Odoo Hack 2025 · Team Esc(Reality);</p>
             </div>
           </section>
 
@@ -109,13 +98,11 @@ export default function LoginPage() {
           >
             <div className="mx-auto w-full max-w-sm">
               <div className="mb-8 text-center lg:text-left">
-                {/* TODO: Replace headings */}
                 <h2 className="text-3xl font-bold tracking-tight text-(--app-color-text)">Welcome back</h2>
-                <p className="mt-1 text-sm text-(--app-color-text-muted)">Sign in to your dashboard</p>
+                <p className="mt-1 text-sm text-(--app-color-text-muted)">Sign in to your AssetFlow workspace</p>
               </div>
               <form className="space-y-4" onSubmit={handleSubmit}>
-                {/* TODO: Adjust label/placeholder to match your entity (e.g. "Work Email") */}
-                <Input label="Email" type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="you@example.com" className="h-11 rounded-xl" />
+                <Input label="Work Email" type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="you@company.com" className="h-11 rounded-xl" />
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-semibold text-(--app-color-text)">Password</label>
@@ -124,9 +111,8 @@ export default function LoginPage() {
                   <Input type="password" name="password" value={formData.password} onChange={handleChange} required placeholder="••••••••" className="h-11 rounded-xl" />
                 </div>
                 <div className="pt-1">
-                  {/* TODO: Replace button label */}
                   <Button type="submit" className="h-11 w-full rounded-xl text-sm font-bold shadow-lg transition-all hover:scale-[1.01] active:scale-[0.99]" loading={isSubmitting} disabled={isSubmitting}>
-                    Sign In
+                    Sign In to AssetFlow
                   </Button>
                 </div>
                 <p className="mt-8 text-center text-xs text-(--app-color-text-muted)">

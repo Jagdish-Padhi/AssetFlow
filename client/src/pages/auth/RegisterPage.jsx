@@ -1,12 +1,3 @@
-/**
- * RegisterPage
- *
- * TODO items:
- *  - Replace ALL text marked TODO
- *  - The "name" field maps to users.name in DB — rename label to match your entity
- *    (e.g. "Organization Name", "Team Name", "Full Name")
- *  - Update onboarding steps to describe your real flow
- */
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -19,11 +10,10 @@ import useAuthStore from '../../store/auth.store.js';
 
 const initialForm = { name: '', email: '', password: '', confirmPassword: '' };
 
-// TODO: Replace with your app's real onboarding steps
 const ONBOARDING_STEPS = [
-  'Create your account and set up your profile.',
-  'Access your personalized dashboard.',
-  'Start using the core features of the app.',
+  'Create your account — you start as an Employee by default.',
+  'Your Admin will assign your role and department in the workspace.',
+  'Access your personalized dashboard to track assets and requests.',
 ];
 
 export default function RegisterPage() {
@@ -71,18 +61,16 @@ export default function RegisterPage() {
             <div className="noise-overlay pointer-events-none opacity-20" />
             <div className="relative z-10 flex flex-col items-center">
               <div className="flex flex-col items-center gap-6">
-                {/* TODO: Replace /logo.png */}
-                <img src="/logo.png" alt="App Logo" className="h-36 w-36 object-contain drop-shadow-2xl" />
+                <img src="/logo.png" alt="AssetFlow Logo" className="h-36 w-36 object-contain drop-shadow-2xl" />
                 <div className="h-[3px] w-16 rounded-full bg-emerald-400" />
               </div>
               <div className="mt-8">
-                {/* TODO: Replace heading and description */}
                 <h1 className="text-4xl font-black uppercase tracking-tighter italic lg:text-5xl">
-                  Get Started <br />
-                  <span className="text-teal-400">Today.</span>
+                  Join Your Team<br />
+                  <span className="text-teal-400">On AssetFlow.</span>
                 </h1>
                 <p className="mx-auto mt-4 max-w-sm text-lg font-bold leading-tight text-white/70">
-                  Your signup value proposition goes here.
+                  One platform to manage every asset, booking, and maintenance request across your organization.
                 </p>
               </div>
               <div className="mt-10 space-y-4 px-4 text-left">
@@ -97,9 +85,8 @@ export default function RegisterPage() {
               </div>
             </div>
             <div className="absolute bottom-6 left-0 right-0 z-10 flex items-center justify-between px-10 text-[9px] font-black uppercase tracking-[0.3em] text-white/25">
-              {/* TODO: Replace app name */}
-              <p>© 2026 Your App Name</p>
-              <p>Subtitle here</p>
+              <p>© 2025 AssetFlow</p>
+              <p>Odoo Hack 2025 · Team Esc(Reality);</p>
             </div>
           </section>
 
@@ -110,22 +97,22 @@ export default function RegisterPage() {
           >
             <div className="mx-auto w-full max-w-sm">
               <div className="mb-6 text-center lg:text-left">
-                {/* TODO: Replace headings */}
-                <h2 className="text-2xl font-bold tracking-tight text-(--app-color-text)">Create Account</h2>
-                <p className="mt-0.5 text-xs text-(--app-color-text-muted)">Register to get started</p>
+                <h2 className="text-2xl font-bold tracking-tight text-(--app-color-text)">Create your account</h2>
+                <p className="mt-0.5 text-xs text-(--app-color-text-muted)">Join your organization's AssetFlow workspace</p>
               </div>
               <form className="space-y-3" onSubmit={handleSubmit}>
-                {/* TODO: Rename label to match your entity (e.g. "Organization Name", "Full Name") */}
-                <Input label="Your Name" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. Acme Corp" className="h-10 rounded-xl text-sm" />
-                <Input label="Email" type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="you@example.com" className="h-10 rounded-xl text-sm" />
+                <Input label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. Jagdish Padhi" className="h-10 rounded-xl text-sm" />
+                <Input label="Work Email" type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="you@company.com" className="h-10 rounded-xl text-sm" />
                 <div className="grid grid-cols-2 gap-3">
                   <Input label="Password" type="password" name="password" value={formData.password} onChange={handleChange} required placeholder="••••••••" className="h-10 rounded-xl text-sm" />
                   <Input label="Confirm" type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required placeholder="••••••••" className="h-10 rounded-xl text-sm" />
                 </div>
+                <p className="text-[10px] text-(--app-color-text-muted)">
+                  Your account will be created as an <strong>Employee</strong>. An Admin will assign your role.
+                </p>
                 <div className="pt-1">
-                  {/* TODO: Replace button label */}
                   <Button type="submit" className="h-10 w-full rounded-xl text-xs font-bold shadow-lg transition-all hover:scale-[1.01] active:scale-[0.99]" loading={isSubmitting} disabled={isSubmitting}>
-                    Create Account
+                    Create AssetFlow Account
                   </Button>
                 </div>
                 <p className="mt-6 text-center text-[11px] text-(--app-color-text-muted)">

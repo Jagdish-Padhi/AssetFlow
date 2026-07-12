@@ -1,28 +1,20 @@
-/**
- * DashboardLayout
- *
- * Shared shell for all authenticated dashboard pages.
- *
- * TODO:
- *  1. Update navigationItems with your app's real pages
- *  2. Replace the logo/app name references
- *  3. Add socket.io connection here if your PS needs real-time features
- */
 import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, LogOut, Settings } from 'lucide-react';
+import { LayoutDashboard, LogOut, Package, Users, Building2, Tag, Wrench, CalendarCheck, FileSearch } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 import api from '../../services/api.js';
 import useAuthStore from '../../store/auth.store.js';
 
-// TODO: Replace with your app's real navigation items
-// icon: any lucide-react icon component
 const navigationItems = [
-  { label: 'Overview', path: '/dashboard', icon: LayoutDashboard },
-  // { label: 'Resources', path: '/dashboard/resources', icon: Layers },
-  // { label: 'Analytics', path: '/dashboard/analytics', icon: BarChart3 },
-  // Add more items here ↑
+  { label: 'Overview',    path: '/dashboard',             icon: LayoutDashboard },
+  { label: 'Assets',      path: '/dashboard/assets',      icon: Package },
+  { label: 'Allocations', path: '/dashboard/allocations', icon: Users },
+  { label: 'Bookings',    path: '/dashboard/bookings',    icon: CalendarCheck },
+  { label: 'Maintenance', path: '/dashboard/maintenance', icon: Wrench },
+  { label: 'Audits',      path: '/dashboard/audits',      icon: FileSearch },
+  { label: 'Departments', path: '/dashboard/departments', icon: Building2 },
+  { label: 'Categories',  path: '/dashboard/categories',  icon: Tag },
 ];
 
 export default function DashboardLayout() {
@@ -46,11 +38,18 @@ export default function DashboardLayout() {
       <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-(--app-color-border) bg-white/90 backdrop-blur">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 px-6 py-5 hover:opacity-80">
-          {/* TODO: Replace logo.png */}
-          <img src="/logo.png" alt="Logo" className="h-8 w-8 object-contain" />
-          {/* TODO: Replace app name */}
-          <span className="text-sm font-black uppercase tracking-widest text-(--app-color-text)">App Name</span>
+          <img src="/logo.png" alt="AssetFlow Logo" className="h-8 w-8 object-contain" />
+          <span className="text-sm font-black uppercase tracking-widest text-(--app-color-text)">AssetFlow</span>
         </Link>
+
+        {/* Role badge */}
+        {user?.role && (
+          <div className="mx-4 mb-2 rounded-lg bg-(--app-color-primary-soft) px-3 py-1.5 text-center">
+            <span className="text-[10px] font-black uppercase tracking-widest text-(--app-color-primary)">
+              {user.role.replace('_', ' ')}
+            </span>
+          </div>
+        )}
 
         {/* Nav items */}
         <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-4">
