@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { verifyToken } from '../middlewares/verifyToken.js';
-import { authorize } from '../middlewares/authorize.js';
 import * as svc from '../services/maintenance.service.js';
 
 const router = Router();

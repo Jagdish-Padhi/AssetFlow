@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { getDb, connectDatabase } from '../config/database.js';
 import { users, departments, categories, assets, allocations, maintenance } from './schema/index.js';
 import bcrypt from 'bcrypt';
-import { eq } from 'drizzle-orm';
+
 
 async function seed() {
   await connectDatabase();
@@ -26,7 +26,7 @@ async function seed() {
   console.log('Creating users...');
   const passwordHash = await bcrypt.hash('password123', 12);
   
-  const [adminUser] = await db.insert(users).values({
+  await db.insert(users).values({
     name: 'Admin User',
     email: 'admin@assetflow.com',
     passwordHash,
@@ -65,7 +65,7 @@ async function seed() {
     isBookable: false
   }).returning();
 
-  const [asset2] = await db.insert(assets).values({
+  await db.insert(assets).values({
     name: 'Ergonomic Chair',
     assetTag: 'AST-CHR-001',
     categoryId: furnitureCat.id,

@@ -191,13 +191,11 @@ export async function createRecurringBooking({ userId, payload = {} }) {
     if (!occurrenceCap && !until) break;
 
     const occEnd = new Date(occStart.getTime() + durationMs);
-    // eslint-disable-next-line no-await-in-loop
     const overlaps = await hasOverlap(db, { resourceId: resource.id, startTime: occStart, endTime: occEnd });
 
     if (overlaps) {
       skipped.push({ startTime: occStart.toISOString(), endTime: occEnd.toISOString(), reason: 'Overlaps an existing booking.' });
     } else {
-      // eslint-disable-next-line no-await-in-loop
       const [row] = await db
         .insert(bookings)
         .values({

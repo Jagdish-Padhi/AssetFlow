@@ -3,7 +3,7 @@
  * Handles: allocate, return, overdue detection, transfer requests.
  * Conflict engine prevents double-allocation and invalid-state assignments.
  */
-import { and, eq, lt, desc, ne } from 'drizzle-orm';
+import { and, eq, lt, desc } from 'drizzle-orm';
 import { getDb } from '../db/index.js';
 import { allocations, assets, transferRequests, users } from '../db/schema/index.js';
 

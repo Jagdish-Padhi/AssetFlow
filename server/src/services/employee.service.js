@@ -3,7 +3,7 @@
  * Admin manages employees: list, view, promote roles, assign departments, deactivate.
  * Role changes happen ONLY here — never via self-service.
  */
-import { and, eq, ilike, desc, ne } from 'drizzle-orm';
+import { and, eq, ilike, desc } from 'drizzle-orm';
 import { getDb } from '../db/index.js';
 import { users } from '../db/schema/index.js';
 

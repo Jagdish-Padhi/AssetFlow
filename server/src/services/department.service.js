@@ -2,7 +2,7 @@
  * Department Service — Phase 2
  * Admin CRUD for departments + department head assignment.
  */
-import { and, eq, ilike, desc, sql } from 'drizzle-orm';
+import { and, eq, ilike, desc } from 'drizzle-orm';
 import { getDb } from '../db/index.js';
 import { departments, users } from '../db/schema/index.js';
 

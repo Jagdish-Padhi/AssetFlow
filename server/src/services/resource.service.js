@@ -3,7 +3,7 @@
  * Full CRUD, lifecycle state machine, QR code generation.
  * State transition rules are enforced here — never in the controller.
  */
-import { and, eq, ilike, inArray, desc } from 'drizzle-orm';
+import { and, eq, ilike, desc } from 'drizzle-orm';
 import { getDb } from '../db/index.js';
 import { assets } from '../db/schema/index.js';
 
