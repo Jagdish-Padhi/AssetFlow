@@ -14,19 +14,17 @@ const navigationItems = [
   { label: 'Allocations',         path: '/dashboard/allocations',   icon: ListChecks },
   { label: 'Bookings',            path: '/dashboard/bookings',      icon: CalendarCheck },
   { label: 'Maintenance',         path: '/dashboard/maintenance',   icon: Wrench },
-  { label: 'Audits',              path: '/dashboard/audits',        icon: FileSearch },
-  { label: 'Reports & Analytics', path: '/dashboard/reports',       icon: BarChart3 },
+  { label: 'Audits',              path: '/dashboard/audits',        icon: FileSearch,        allowedRoles: ['technician', 'asset_manager', 'admin'] },
+  { label: 'Reports & Analytics', path: '/dashboard/reports',       icon: BarChart3,         allowedRoles: ['asset_manager', 'admin'] },
   { label: 'Notifications',       path: '/dashboard/notifications', icon: Bell },
-  { label: 'Employees',           path: '/dashboard/employees',     icon: Users,   minRole: 'department_head' },
-  { label: 'Departments',         path: '/dashboard/departments',   icon: Building2 },
-  { label: 'Categories',          path: '/dashboard/categories',    icon: Tag },
+  { label: 'Employees',           path: '/dashboard/employees',     icon: Users,             allowedRoles: ['department_head', 'asset_manager', 'admin'] },
+  { label: 'Departments',         path: '/dashboard/departments',   icon: Building2,         allowedRoles: ['asset_manager', 'admin'] },
+  { label: 'Categories',          path: '/dashboard/categories',    icon: Tag,               allowedRoles: ['asset_manager', 'admin'] },
 ];
 
-const ROLE_LEVELS = { employee: 0, department_head: 1, asset_manager: 2, technician: 2, admin: 3 };
-
-function hasAccess(userRole, minRole) {
-  if (!minRole) return true;
-  return (ROLE_LEVELS[userRole] ?? 0) >= (ROLE_LEVELS[minRole] ?? 0);
+function hasAccess(userRole, allowedRoles) {
+  if (!allowedRoles) return true;
+  return allowedRoles.includes(userRole);
 }
 
 export default function DashboardLayout() {
@@ -35,7 +33,7 @@ export default function DashboardLayout() {
   const user = useAuthStore((s) => s.user);
   const clearAuth = useAuthStore((s) => s.clearAuth);
 
-  const visibleNavItems = navigationItems.filter((item) => hasAccess(user?.role, item.minRole));
+  const visibleNavItems = navigationItems.filter((item) => hasAccess(user?.role, item.allowedRoles));
 
   const handleLogout = async () => {
     try {

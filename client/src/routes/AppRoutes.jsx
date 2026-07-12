@@ -36,6 +36,15 @@ function PrivateRoute() {
   return isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
+function RoleRoute({ allowedRoles, children }) {
+  const user = useAuthStore((s) => s.user);
+  if (!user) return <Navigate to="/login" replace />;
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return children;
+}
+
 export default function AppRoutes() {
   const location = useLocation();
   const hydrated = useAuthStore((s) => s.hydrated);
@@ -76,12 +85,12 @@ export default function AppRoutes() {
             <Route path="/dashboard/allocations" element={<AllocationsPage />} />
             <Route path="/dashboard/bookings"    element={<BookingsPage />} />
             <Route path="/dashboard/maintenance" element={<MaintenancePage />} />
-            <Route path="/dashboard/audits"      element={<AuditsPage />} />
-            <Route path="/dashboard/departments" element={<DepartmentsPage />} />
-            <Route path="/dashboard/categories"  element={<CategoriesPage />} />
+            <Route path="/dashboard/audits"      element={<RoleRoute allowedRoles={['technician', 'asset_manager', 'admin']}><AuditsPage /></RoleRoute>} />
+            <Route path="/dashboard/departments" element={<RoleRoute allowedRoles={['asset_manager', 'admin']}><DepartmentsPage /></RoleRoute>} />
+            <Route path="/dashboard/categories"  element={<RoleRoute allowedRoles={['asset_manager', 'admin']}><CategoriesPage /></RoleRoute>} />
             <Route path="/dashboard/notifications" element={<NotificationsPage />} />
-            <Route path="/dashboard/employees" element={<EmployeesPage />} />
-            <Route path="/dashboard/reports" element={<ReportsPage />} />
+            <Route path="/dashboard/employees" element={<RoleRoute allowedRoles={['department_head', 'asset_manager', 'admin']}><EmployeesPage /></RoleRoute>} />
+            <Route path="/dashboard/reports" element={<RoleRoute allowedRoles={['asset_manager', 'admin']}><ReportsPage /></RoleRoute>} />
             {/* Unknown dashboard sub-paths → overview */}
             <Route path="/dashboard/*"           element={<Navigate to="/dashboard" replace />} />
           </Route>
