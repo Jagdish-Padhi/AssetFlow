@@ -10,7 +10,8 @@ import { formatTimeRange } from '../../utils/formatDate.js';
 const navigationItems = [
   { label: 'Overview',    path: '/dashboard',             icon: LayoutDashboard },
   { label: 'Assets',      path: '/dashboard/assets',      icon: Package },
-  { label: 'Allocations', path: '/dashboard/allocations', icon: Users },
+  { label: 'Employees',   path: '/dashboard/employees',   icon: Users },
+  { label: 'Allocations', path: '/dashboard/allocations', icon: ListChecks },
   { label: 'Bookings',    path: '/dashboard/bookings',    icon: CalendarCheck },
   { label: 'Maintenance', path: '/dashboard/maintenance', icon: Wrench },
   { label: 'Audits',      path: '/dashboard/audits',      icon: FileSearch },
