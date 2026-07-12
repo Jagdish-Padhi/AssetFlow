@@ -8,17 +8,17 @@ import useAuthStore from '../../store/auth.store.js';
 import { formatTimeRange } from '../../utils/formatDate.js';
 
 const navigationItems = [
-  { label: 'Overview',    path: '/dashboard',             icon: LayoutDashboard },
-  { label: 'Assets',      path: '/dashboard/assets',      icon: Package },
-  { label: 'Employees',   path: '/dashboard/employees',   icon: Users },
-  { label: 'Allocations', path: '/dashboard/allocations', icon: ListChecks },
-  { label: 'Bookings',    path: '/dashboard/bookings',    icon: CalendarCheck },
-  { label: 'Maintenance', path: '/dashboard/maintenance', icon: Wrench },
-  { label: 'Audits',      path: '/dashboard/audits',      icon: FileSearch },
-  { label: 'Departments', path: '/dashboard/departments', icon: Building2 },
-  { label: 'Categories',  path: '/dashboard/categories',  icon: Tag },
-  { label: 'Notifications', path: '/dashboard/notifications', icon: Bell },
-  { label: 'Reports & Analytics', path: '/dashboard/reports', icon: BarChart3 },
+  { label: 'Overview',            path: '/dashboard',               icon: LayoutDashboard },
+  { label: 'Assets',              path: '/dashboard/assets',        icon: Package },
+  { label: 'Allocations',         path: '/dashboard/allocations',   icon: ListChecks },
+  { label: 'Bookings',            path: '/dashboard/bookings',      icon: CalendarCheck },
+  { label: 'Maintenance',         path: '/dashboard/maintenance',   icon: Wrench },
+  { label: 'Audits',              path: '/dashboard/audits',        icon: FileSearch },
+  { label: 'Reports & Analytics', path: '/dashboard/reports',       icon: BarChart3 },
+  { label: 'Notifications',       path: '/dashboard/notifications', icon: Bell },
+  { label: 'Employees',           path: '/dashboard/employees',     icon: Users },
+  { label: 'Departments',         path: '/dashboard/departments',   icon: Building2 },
+  { label: 'Categories',          path: '/dashboard/categories',    icon: Tag },
 ];
 
 export default function DashboardLayout() {
