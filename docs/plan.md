@@ -79,7 +79,7 @@ This phase should establish the complete project architecture.
 
 ### Project setup
 
-- MERN architecture
+- PERN architecture (PostgreSQL, Express, React, Node.js + Drizzle ORM)
 - Folder structure
 - Environment configuration
 - API architecture
@@ -124,6 +124,7 @@ Roles
 - Admin
 - Asset Manager
 - Department Head
+- Technician
 - Employee
 
 Permissions should be centralized.
@@ -1213,6 +1214,6 @@ A fully functional, enterprise-grade ERP platform featuring:
 - AI-Powered Assistance
 - Production-Ready Architecture
 - Responsive, Modern UI/UX
-- Scalable MERN Codebase
+- Scalable PERN Codebase (PostgreSQL, Express, React, Node.js + Drizzle ORM)
 
 The application should feel like a professional ERP product rather than a hackathon prototype, with every phase incrementally building toward a cohesive, deployable system.
