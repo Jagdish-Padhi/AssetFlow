@@ -1,18 +1,18 @@
-# Handle line endings automatically for files detected as text
-# and leave binary files untouched.
 * text=auto
 
 # Declare files that will always have LF line endings on checkout.
-# This prevents Windows carriage return (CRLF) conversion issues for script/config files.
 *.sh           text eol=lf
-*.json         text
-*.js           text
-*.jsx          text
-*.css          text
-*.html         text
-*.md           text
+*.json         text eol=lf
+*.js           text eol=lf
+*.jsx          text eol=lf
+*.ts           text eol=lf
+*.tsx          text eol=lf
+*.css          text eol=lf
+*.html         text eol=lf
+*.md           text eol=lf
+Dockerfile     text eol=lf
 
-# Denote binary files (forces git to leave them raw)
+# Denote binary files
 *.png          binary
 *.jpg          binary
 *.jpeg         binary
