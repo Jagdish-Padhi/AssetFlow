@@ -1,103 +1,141 @@
-# PERN Full-Stack Template
+# 🛠️ AssetFlow - Enterprise Asset & Resource Management System
 
-**PostgreSQL · Express · React · Node.js + Drizzle ORM**
+**Hackathon:** Odoo Hack 2025 | **Team:** Esc(Reality); | **Track:** Enterprise Operations
 
-Production-grade hackathon-ready template. Zero Firebase, zero Supabase — pure PostgreSQL with a dual-driver setup for local Docker and Neon cloud deployment.
-
----
-
-## Stack
-
-| Layer    | Tech                                   |
-|----------|----------------------------------------|
-| Frontend | React 19, Vite, TailwindCSS v4, Zustand |
-| Backend  | Express 5, Node.js ESM                |
-| ORM      | Drizzle ORM                           |
-| Database | PostgreSQL (Docker locally / Neon cloud) |
-| Auth     | JWT (access + refresh token rotation) |
+> Simplifying and digitizing how organizations track, allocate, and maintain their physical assets and shared resources through a centralized ERP platform.
 
 ---
 
-## Quick Start
+## 🔗 Quick Links
 
-### 1. Start local Postgres
+
+| 🚀 Live Demo | 🎥 Video Walkthrough | 📊 Presentation |
+|:------------:|:-------------------:|:---------------:|
+| [**Launch App**](#) | [**Watch Demo**](#) | [**View PPT**](#) |
+
+---
+
+## 🎯 Problem Statement
+Organizations struggle with manual tracking inefficiencies (spreadsheets, paper logs) for their physical assets and shared resources. There is a need for a unified system to maintain departments, track assets through a flexible lifecycle, allocate assets without double-booking, book shared resources, route maintenance requests, and run scheduled audit cycles.
+
+## 💡 Solution
+AssetFlow is a centralized ERP platform providing structured asset lifecycles, centralized resource booking, and real-time visibility into who holds what, where it is, and its condition. With clean architecture and role-based workflows, it ensures conflict-free allocation, structured maintenance approvals, and streamlined audits without touching accounting concerns.
+
+---
+
+## 🚀 Key Features
+
+### ✅ Organization Setup & User Roles
+- **Admin Setup:** Maintain master data for departments and asset categories.
+- **Employee Directory:** Manage employees and promote to Department Head or Asset Manager.
+- **Role-Based Access:** Distinct workflows for Admin, Asset Manager, Department Head, and Employee.
+
+### ✅ Asset Registration & Directory
+- **Lifecycle Tracking:** Register assets with auto-generated Asset Tags and track states (Available, Allocated, Reserved, Under Maintenance, Lost, Retired, Disposed).
+- **Search & Filter:** Find assets by tag, serial number, QR code, category, status, or location.
+- **Per-Asset History:** Full allocation and maintenance history.
+
+### ✅ Asset Allocation & Transfer
+- **Conflict Handling:** Strict rules to prevent double-allocation of a single asset.
+- **Transfer Workflow:** Seamless requests, approvals, and re-allocations for assets currently held by others.
+- **Return Flow:** Capture condition check-in notes upon return; overdue allocations are auto-flagged.
+
+### ✅ Resource Booking
+- **Time-Slot Booking:** Calendar view for booking shared/limited resources.
+- **Overlap Validation:** Automatic rejection of overlapping booking requests.
+- **Status Management:** Upcoming, Ongoing, Completed, or Cancelled bookings with reminder notifications.
+
+### ✅ Maintenance Management
+- **Approval Workflow:** Route repair requests through Asset Managers before work begins.
+- **Status Auto-Updates:** Assets automatically flip to "Under Maintenance" upon approval and back to "Available" on resolution.
+
+### ✅ Asset Audits & Analytics
+- **Structured Verification Cycles:** Create audit cycles for specific departments or locations.
+- **Discrepancy Reports:** System auto-generates reports for Missing or Damaged items.
+- **KPI Dashboard & Reports:** Asset utilization trends, maintenance frequency, and department-wise allocation summaries.
+- **Activity Logs:** Alerts for overdue returns, maintenance approvals, and full audit logs.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | React 19, Vite, TailwindCSS v4, Zustand |
+| **Backend** | Express 5, Node.js ESM, REST API |
+| **Database** | PostgreSQL, Drizzle ORM (Docker / Neon Cloud) |
+| **Auth** | JWT (Access + Refresh Tokens) |
+
+---
+
+## ⚡ Quick Start
+
 ```bash
+# Clone repository
+git clone <repo-url>
+cd Odoo-Hack-25
+
+# 1. Start local Postgres (Docker)
 docker compose up -d
-```
 
-### 2. Server
-```bash
+# 2. Backend setup
 cd server
-cp .env.example .env    # fill in JWT_SECRET at minimum
+cp .env.example .env    # Configure JWT_SECRET at minimum
 npm install
-npm run db:push          # apply schema to local DB
-npm run dev
-```
+npm run db:push         # Apply schema to local DB
+npm run dev             # Runs on :5000
 
-### 3. Client
-```bash
+# 3. Frontend setup (new terminal)
 cd client
-cp .env.example .env    # or leave defaults for local
+cp .env.example .env    
 npm install
-npm run dev
+npm run dev             # Runs on :5173
 ```
 
-App: http://localhost:5173  
-API: http://localhost:5000/api
+### Environment Variables
 
----
+**Backend (server/.env)**
+```env
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/db_name
+JWT_SECRET=your_super_secret_key
+PORT=5000
+```
 
-## Customize for your PS
-
-### Rename the user entity
-`users.name` in `server/src/db/schema/users.js` — rename to `orgName`, `teamName`, `fullName`, etc.  
-Update the label in `RegisterPage.jsx` to match.
-
-### Add domain tables
-1. Copy `server/src/db/schema/resourceItems.js` → rename file + table
-2. Export it in `db/schema/index.js`
-3. Run `npm run db:push`
-4. Copy service + controller + route files and rename
-
-### Add dashboard pages
-1. Create `client/src/pages/dashboard/YourPage.jsx` (copy `DashboardHomePage`)
-2. Add a nav item in `DashboardLayout.jsx`
-3. Add a `<Route>` in `AppRoutes.jsx`
-
-### Find all placeholders
-```bash
-grep -r "TODO" server/src/ client/src/ --include="*.js" --include="*.jsx" -n
+**Frontend (client/.env)**
+```env
+VITE_API_URL=http://localhost:5000/api
 ```
 
 ---
 
-## Auth API
+## 🔗 API Endpoints
 
-| Method | Endpoint        | Auth?  | Body                          |
-|--------|-----------------|--------|-------------------------------|
-| POST   | /auth/register  | No     | `{ name, email, password }`   |
-| POST   | /auth/login     | No     | `{ email, password }`         |
-| POST   | /auth/refresh   | Cookie | —                             |
-| POST   | /auth/logout    | Cookie | —                             |
-| GET    | /auth/me        | Bearer | —                             |
+| Method | Endpoint | Auth? | Description |
+|--------|----------|-------|-------------|
+| **POST** | `/auth/register` | No | Register a new user |
+| **POST** | `/auth/login` | No | Authenticate and get tokens |
+| **POST** | `/auth/refresh` | Cookie | Refresh access token |
+| **POST** | `/auth/logout` | Cookie | Logout user |
+| **GET**  | `/auth/me` | Bearer | Get current user details |
 
----
-
-## Deploy to Neon (Production DB)
-
-1. Create a free project at https://neon.tech
-2. Copy the connection string (contains `neon.tech`)
-3. Set it as `DATABASE_URL` in `server/.env`
-4. Run `npm run db:push` — Drizzle applies schema to Neon automatically
-5. The app auto-detects Neon and switches to the serverless HTTP driver
+*(Note: Domain specific endpoints for Equipment, Teams, and Requests are to be built based on the schema)*
 
 ---
 
-## Drizzle Cheatsheet
+## 👥 Team Esc(Reality);
 
-```bash
-npm run db:push      # push schema changes to DB (no migration files)
-npm run db:generate  # generate SQL migration files
-npm run db:migrate   # run pending migrations
-npm run db:studio    # open Drizzle Studio (visual DB browser)
-```
+| Member | Role |
+|--------|------|
+| [**Saman Pandey**](https://github.com/SamanPandey-in) | UI/UX Design & Documentation |
+| [**Jagdish Padhi**](https://github.com/Jagdish-Padhi) | Backend, Database & Integration |
+
+---
+
+## 🔮 Future Scope
+- Advanced IoT integration for live tracking of high-value assets
+- Mobile app (React Native) for on-the-go scanning and maintenance logs
+- Advanced AI-driven predictive maintenance and asset retirement forecasting
+
+---
+
+**Built with ❤️ for Odoo Hack 2025 by Team Esc(Reality);**
