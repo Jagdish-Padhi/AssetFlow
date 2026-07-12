@@ -19,7 +19,7 @@ router.get('/', verifyToken, authorize('admin', 'asset_manager', 'department_hea
 // Allocate an asset — admin, asset_manager
 router.post('/', verifyToken, authorize('admin', 'asset_manager'), async (req, res, next) => {
   try {
-    const item = await svc.allocateAsset(req.body);
+    const item = await svc.allocateAsset({ ...req.body, actionedByUserId: req.auth.userId });
     return res.status(201).json({ item });
   } catch (e) { return next(e); }
 });
@@ -27,7 +27,7 @@ router.post('/', verifyToken, authorize('admin', 'asset_manager'), async (req, r
 // Return an asset — admin, asset_manager
 router.patch('/:id/return', verifyToken, authorize('admin', 'asset_manager'), async (req, res, next) => {
   try {
-    const result = await svc.returnAsset(req.params.id, req.body);
+    const result = await svc.returnAsset(req.params.id, { ...req.body, actionedByUserId: req.auth.userId });
     return res.json(result);
   } catch (e) { return next(e); }
 });
