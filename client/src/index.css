@@ -6,6 +6,15 @@
 	box-sizing: border-box;
 }
 
+/* ── Force white text on any solid primary-color background ── */
+/* This overrides the global :root color for buttons/links on dark backgrounds */
+.btn-primary-solid,
+a.btn-primary-solid,
+button.btn-primary-solid {
+	color: #ffffff !important;
+}
+
+
 :root {
 	font-family: var(--app-font-sans);
 	color: var(--app-color-text);
@@ -470,3 +479,124 @@ select {
 	border: 6px solid transparent;
 	border-bottom-color: var(--app-color-border);
 }
+
+/* ── 3D Tower Loader Styles ── */
+.tower-loader-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.tower-loader {
+	height: 50px;
+	width: 40px;
+	transform: scale(2);
+}
+.tower-box {
+	position: relative;
+	opacity: 0;
+	left: 10px;
+}
+.tower-side-left {
+	position: absolute;
+	background-color: var(--app-color-primary-hover);
+	width: 19px;
+	height: 5px;
+	transform: skew(0deg, -25deg);
+	top: 14px;
+	left: 10px;
+}
+.tower-side-right {
+	position: absolute;
+	background-color: var(--app-color-primary);
+	width: 19px;
+	height: 5px;
+	transform: skew(0deg, 25deg);
+	top: 14px;
+	left: -9px;
+}
+.tower-side-top {
+	position: absolute;
+	background-color: #87afb9;
+	background-color: color-mix(in srgb, var(--app-color-primary) 50%, #ffffff);
+	width: 20px;
+	height: 20px;
+	transform: rotate(45deg) skew(-20deg, -20deg);
+}
+.tower-box-1 {
+	animation: tower-from-left 4s infinite;
+}
+.tower-box-2 {
+	animation: tower-from-right 4s infinite;
+	animation-delay: 1s;
+}
+.tower-box-3 {
+	animation: tower-from-left 4s infinite;
+	animation-delay: 2s;
+}
+.tower-box-4 {
+	animation: tower-from-right 4s infinite;
+	animation-delay: 3s;
+}
+
+@keyframes tower-from-left {
+	0% {
+		z-index: 20;
+		opacity: 0;
+		transform: translate(-20px, -6px);
+	}
+	20% {
+		z-index: 10;
+		opacity: 1;
+		transform: translate(0px, 0px);
+	}
+	40% {
+		z-index: 9;
+		transform: translate(0px, 4px);
+	}
+	60% {
+		z-index: 8;
+		transform: translate(0px, 8px);
+	}
+	80% {
+		z-index: 7;
+		opacity: 1;
+		transform: translate(0px, 12px);
+	}
+	100% {
+		z-index: 5;
+		transform: translate(0px, 30px);
+		opacity: 0;
+	}
+}
+
+@keyframes tower-from-right {
+	0% {
+		z-index: 20;
+		opacity: 0;
+		transform: translate(20px, -6px);
+	}
+	20% {
+		z-index: 10;
+		opacity: 1;
+		transform: translate(0px, 0px);
+	}
+	40% {
+		z-index: 9;
+		transform: translate(0px, 4px);
+	}
+	60% {
+		z-index: 8;
+		transform: translate(0px, 8px);
+	}
+	80% {
+		z-index: 7;
+		opacity: 1;
+		transform: translate(0px, 12px);
+	}
+	100% {
+		z-index: 5;
+		transform: translate(0px, 30px);
+		opacity: 0;
+	}
+}
+

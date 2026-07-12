@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 import Button from '../../components/Button';
@@ -66,7 +67,7 @@ export default function RegisterPage() {
             />
             <div className="relative z-10 flex flex-col items-center">
               <div className="flex flex-col items-center gap-5">
-                <img src="/logo.png" alt="AssetFlow Logo" className="h-28 w-28 object-contain" style={{ filter: 'drop-shadow(0 0 24px rgba(15,200,180,0.35))' }} />
+                <img src="/logo.svg" alt="AssetFlow Logo" className="h-28 w-28 object-contain" style={{ filter: 'drop-shadow(0 0 24px rgba(15,200,180,0.35))' }} />
                 <div className="h-[2px] w-10 rounded-full" style={{ background: 'linear-gradient(90deg, transparent, #2dd4bf, transparent)' }} />
               </div>
               <div className="mt-7">
@@ -104,6 +105,9 @@ export default function RegisterPage() {
             style={{ backgroundColor: 'var(--app-color-surface-glass)' }}
           >
             <div className="mx-auto w-full max-w-sm">
+              <Link to="/" className="mb-5 inline-flex items-center gap-1.5 text-xs font-semibold text-(--app-color-text-muted) hover:text-(--app-color-primary) transition-colors">
+                <ArrowLeft className="h-3.5 w-3.5" /> Back to Home
+              </Link>
               <div className="mb-6 text-center lg:text-left">
                 <h2 className="text-2xl font-bold tracking-tight text-(--app-color-text)">Create your account</h2>
                 <p className="mt-0.5 text-xs text-(--app-color-text-muted)">Join your organization's AssetFlow workspace</p>

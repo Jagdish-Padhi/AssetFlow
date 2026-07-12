@@ -536,21 +536,105 @@ Maintenance assets
 
 ---
 
-## Transfer Workflow
-
-Request
-
-Approve
-
-Reject
-
-Complete
-
-History
+### Step 3: Asset Registration & Specs (Aligns with Screen 4)
+1. Navigate to the **Assets** tab.
+2. Click **Register Asset**:
+   - **Name:** `MacBook Pro 16"`
+   - **Category:** `Electronics` (or Laptops)
+   - **Serial Number:** `S/N 9998273`
+   - **Cost:** `2500`
+   - **Status:** Select `Available`.
+   - **Bookable:** Turn on the `Shared/Bookable Resource` toggle.
+   - *Requirement check:* Selecting a category like **Laptops** dynamically renders specific specification fields (e.g. RAM, Storage, OS). Fill these out (e.g., `16` for RAM, `512` for SSD, `macOS` for OS).
+3. Save the asset.
+   - *Requirement check:* Confirm a unique Asset Tag (e.g. `AST-MAC-001`) is auto-generated, and custom attributes are saved and rendered as visual tags in the assets table.
+4. **Test Live QR Scanner:** Click the **Scan QR** button on the Assets page. Grant camera permissions. Scan a tag or input a serial tag; confirm it instantly opens that asset's edit modal on screen or filters search automatically.
 
 ---
 
-## Return Workflow
+### Step 4: Allocations & Conflict Engine (Aligns with Screen 5)
+1. Navigate to the **Allocations** page.
+2. Click **Allocate Asset**:
+   - Choose the `MacBook Pro 16"` you just created.
+   - Assign it to an employee (e.g., `employee@assetflow.com`) with an **Expected Return Date** set to **yesterday** (to simulate an overdue returns banner alert on the overview screen).
+3. Save the allocation.
+   - *Requirement check:* Confirm the asset's status automatically transitions to `Allocated`.
+   - *WhatsApp / Email check:* Verify that the assigned employee immediately receives a WhatsApp alert: `💼 ASSETFLOW ENTERPRISE ALERT - Subject: ASSET ALLOCATED TO YOU`.
+4. **Test Double-Allocation Prevention:** Try to allocate the same `MacBook Pro` to another user.
+   - *Requirement check:* Confirm the system blocks this allocation, shows that the asset is already taken, and displays who holds it.
+5. **Test Return Flow:** Click **Return** on the active allocation:
+   - Input check-in notes: `Returned in perfect condition`.
+   - Submit.
+   - *Requirement check:* Confirm the asset's status immediately reverts to `Available` and the employee receives a return receipt notification.
+
+---
+
+### Step 5: Resource Bookings & Overlap Validation (Aligns with Screen 6)
+1. Navigate to the **Bookings** tab.
+2. Select the `MacBook Pro 16"` resource from the booking dropdown.
+3. **Timeline View Scheduling:** Click the **timeline** mode tab on the resource calendar:
+   - Verify the chronological timeline list shows hourly slots from 9:00 AM to 6:00 PM.
+   - Click **Available (Click to Book)** next to the `10:00 AM` slot. Confirm it auto-fills the start/end times in the popup form. Complete the form and submit.
+4. **Test Overlap Block:** Attempt to book the same slot (or overlapping slot, e.g., 10:30 AM to 11:30 AM).
+   - *Requirement check:* Confirm the system blocks the request, prevents double booking, and displays a toast message.
+
+---
+
+### Step 6: Maintenance Request Approval Workflow (Aligns with Screen 7)
+1. Allocate an asset to an employee.
+2. Navigate to the **Maintenance** page and click **Raise Maintenance Request**:
+   - Select the allocated asset, set the priority to `High`, and describe the issue (e.g. `Swollen battery`).
+3. Log in as an **Asset Manager** to view the request:
+   - Click **Approve**.
+   - *Requirement check:* Confirm the asset's status automatically switches to `Under Maintenance` upon request approval.
+4. Assign a **Technician** and update the request status to `In Progress`.
+5. Once resolved, mark it as `Resolved`.
+   - *Requirement check:* Confirm the asset status transitions back to `Available`.
+
+---
+
+### Step 7: Asset Audit Verification Cycles (Aligns with Screen 8)
+1. Navigate to the **Audits** tab.
+2. Click **Create Audit Cycle**:
+   - Scope: `IT Department` or similar department.
+   - Select an Auditor.
+3. Access the Audit details and check the assets list:
+   - Mark one asset as `Verified`.
+   - Mark another asset as `Missing`.
+   - *Requirement check:* Confirm a discrepancy report is auto-generated flagging the missing item.
+4. **Close Audit Cycle:** Lock the cycle.
+   - *Requirement check:* Confirm the missing asset's lifecycle status automatically transitions to `Lost`.
+
+---
+
+### Step 8: Reports, Analytics & Print Exports (Aligns with Screen 9 & 2)
+1. Navigate to the **Reports & Analytics** tab in the sidebar.
+2. Verify the charts:
+   - **Assets by Status:** Shows dynamic distribution slices.
+   - **Assets by Category / Department:** Renders interactive bars.
+   - **Utilization Rate:** Shows the percentage of assets currently in use.
+3. **Test PDF Exporter:** Click **PDF Report**:
+   - Verify that the browser's native A4 print layout opens, hiding all dashboard layout sidebars and formatting the operational summary cleanly onto exactly **1 page** with signature blocks at the bottom.
+4. Click the **Export** buttons:
+   - Confirm you can download the generated `assets.csv`, `maintenance.csv`, and `bookings.csv` spreadsheet reports.
+
+---
+
+## 🔒 Verification & Compliance Table
+
+| Problem Statement Requirement | Implementation Alignment | Verified |
+| :--- | :--- | :---: |
+| Non-self-elevating onboarding (Employee only) | Signup defaults to `employee`; Admins manage directory roles | ✅ |
+| Double-Allocation Prevention | Conflict Engine blocks assignments of taken, maintenance, or retired assets | ✅ |
+| Resource Overlap Validation | Booking calendar overlap engine blocks intersecting times | ✅ |
+| Maintenance Status Auto-updates | Status flips to `under_maintenance` on approval and `available` on resolution | ✅ |
+| Audit Cycle Status locking | Closing the audit cycle shifts missing assets to `lost` | ✅ |
+| WhatsApp & Email Alerts | Dispatches HTML emails via Brevo and mobile updates via Twilio | ✅ |
+| KPI Dashboard & CSV Reports | Renders 4 primary KPI cards, 4 visual graphs, and CSV download hooks | ✅ |
+| 📷 Camera QR Scanner | Live webcam scans automatically launch asset detail cards | ✅ |
+| 📋 Dynamic Form Builder | Form fields change dynamically per category (Laptop, Vehicle, Furniture) | ✅ |
+| 📅 Interactive Booking Timelines | Hourly timeline grids with click-to-book shortcut integration | ✅ |
+| 📄 1-Page PDF Export | Industry-grade A4 print output layout with signature approval lines | ✅ |# Return Workflow
 
 Initiate
 

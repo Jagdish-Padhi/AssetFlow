@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="topFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5bbad5"/>
+      <stop offset="100%" stop-color="#87afb9"/>
+    </linearGradient>
+    <linearGradient id="leftFace" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f5f73"/>
+      <stop offset="100%" stop-color="#0b4a5a"/>
+    </linearGradient>
+    <linearGradient id="rightFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f5f73"/>
+      <stop offset="100%" stop-color="#0d5567"/>
+    </linearGradient>
+    <!-- Subtle shadow filter -->
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#0b4a5a" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Bottom block (largest, base) -->
+  <g filter="url(#shadow)" transform="translate(256, 340)">
+    <!-- Top face -->
+    <polygon points="0,-70 120,0 0,70 -120,0" fill="url(#topFace)" opacity="0.85"/>
+    <!-- Left face -->
+    <polygon points="-120,0 0,70 0,110 -120,40" fill="url(#leftFace)"/>
+    <!-- Right face -->
+    <polygon points="120,0 0,70 0,110 120,40" fill="url(#rightFace)" opacity="0.85"/>
+  </g>
+
+  <!-- Middle block -->
+  <g filter="url(#shadow)" transform="translate(256, 270)">
+    <!-- Top face -->
+    <polygon points="0,-55 95,0 0,55 -95,0" fill="url(#topFace)"/>
+    <!-- Left face -->
+    <polygon points="-95,0 0,55 0,90 -95,35" fill="url(#leftFace)"/>
+    <!-- Right face -->
+    <polygon points="95,0 0,55 0,90 95,35" fill="url(#rightFace)" opacity="0.85"/>
+  </g>
+
+  <!-- Top block (smallest, crown) -->
+  <g filter="url(#shadow)" transform="translate(256, 200)">
+    <!-- Top face -->
+    <polygon points="0,-42 72,0 0,42 -72,0" fill="url(#topFace)" opacity="1"/>
+    <!-- Left face -->
+    <polygon points="-72,0 0,42 0,72 -72,30" fill="url(#leftFace)"/>
+    <!-- Right face -->
+    <polygon points="72,0 0,42 0,72 72,30" fill="url(#rightFace)" opacity="0.85"/>
+  </g>
+
+  <!-- Small upward arrow accent on top block -->
+  <g transform="translate(256, 152)">
+    <polygon points="0,-28 18,0 6,0 6,18 -6,18 -6,0 -18,0" fill="#5bbad5" opacity="0.7"/>
+  </g>
+</svg>
