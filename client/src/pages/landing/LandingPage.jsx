@@ -4,6 +4,8 @@ import {
   Users, Building2, ArrowRight, Globe, ExternalLink,
   BarChart3, Bell, CheckCircle2, ChevronRight,
 } from 'lucide-react';
+import BrandLogo from '../../components/BrandLogo.jsx';
+
 
 /* ── Feature modules ─────────────────────────────────────────────── */
 const MODULES = [
@@ -112,12 +114,10 @@ export default function LandingPage() {
       {/* ── Navbar ──────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 flex items-center justify-between px-8 py-4 lg:px-20 border-b border-[var(--app-color-border)]/30 bg-white/50 backdrop-blur-xl">
         <Link to="/" className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--app-color-primary)] text-white shadow-lg shadow-[var(--app-color-primary)]/20">
-            <Package className="h-5 w-5" />
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--app-color-primary)] text-white shadow-lg shadow-[var(--app-color-primary)]/20 shadow-primary/20">
+            <Package className="h-5 w-5 btn-primary-solid" />
           </span>
-          <span className="text-sm font-black uppercase tracking-[0.18em] text-[var(--app-color-text)]">
-            AssetFlow
-          </span>
+          <BrandLogo size="lg" />
         </Link>
         <div className="flex items-center gap-2">
           <Link
@@ -287,11 +287,9 @@ export default function LandingPage() {
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--app-color-primary)] text-white shadow-md">
-                <Package className="h-5 w-5" />
+                <Package className="h-5 w-5 btn-primary-solid" />
               </span>
-              <span className="font-black text-sm uppercase tracking-[0.18em] text-[var(--app-color-text)]">
-                AssetFlow
-              </span>
+              <BrandLogo size="lg" />
             </div>
             <p className="text-sm text-[var(--app-color-text-muted)] leading-relaxed max-w-sm">
               A centralized ERP platform digitizing how organizations track, allocate, and maintain physical assets and shared resources. Built for the Odoo Hack 2025 — Enterprise Operations track.
@@ -343,7 +341,7 @@ export default function LandingPage() {
         {/* Bottom bar */}
         <div className="mx-auto max-w-6xl px-8 border-t border-[var(--app-color-border)]/40 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-[var(--app-color-text-muted)]">
           <p>© 2025 AssetFlow Platform. All rights reserved.</p>
-          <p>Built with ❤️ for <strong className="text-[var(--app-color-text)]">Odoo Hack 2025</strong> · Team Esc(Reality);</p>
+          <p>Built with ❤️ for <strong className="text-[var(--app-color-text)]">Odoo Hackathon 2026</strong> · Team Esc(Reality);</p>
         </div>
       </footer>
     </div>
