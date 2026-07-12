@@ -5,6 +5,8 @@ import {
   BarChart3, Bell, CheckCircle2, ChevronRight,
 } from 'lucide-react';
 import BrandLogo from '../../components/BrandLogo.jsx';
+import TowerLoader from '../../components/loaders/TowerLoader.jsx';
+
 
 
 /* ── Feature modules ─────────────────────────────────────────────── */
@@ -136,39 +138,57 @@ export default function LandingPage() {
       </nav>
 
       {/* ── Hero ────────────────────────────────────────────────── */}
-      <section className="relative z-10 mx-auto max-w-6xl px-8 pt-24 pb-20 text-center lg:pt-32 lg:pb-28">
-        {/* Badge */}
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[var(--app-color-border)] bg-white/90 px-5 py-2 text-xs font-bold uppercase tracking-widest text-[var(--app-color-primary)] shadow-sm backdrop-blur">
-          <span className="h-2 w-2 rounded-full bg-[var(--app-color-primary)] animate-pulse" />
-          Odoo Hack 2025 — Enterprise Operations Track
-        </div>
+      <section className="relative z-10 mx-auto max-w-6xl px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+          {/* Left Column (Main Text) */}
+          <div className="text-left lg:col-span-7 flex flex-col items-start">
+            {/* Badge */}
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--app-color-border)] bg-white/90 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[var(--app-color-primary)] shadow-sm backdrop-blur">
+              <span className="h-2 w-2 rounded-full bg-[var(--app-color-primary)] animate-pulse" />
+              Odoo Hackathon 2026 — Enterprise Operations Track
+            </div>
 
-        {/* Headline */}
-        <h1 className="mb-7 text-5xl font-black leading-[1.1] tracking-tight text-[var(--app-color-text)] sm:text-6xl lg:text-7xl">
-          Your Organization's Assets.<br />
-          <span className="text-[var(--app-color-primary)]">Finally Under Control.</span>
-        </h1>
+            {/* Headline */}
+            <h1 className="mb-6 text-4xl font-black leading-[1.1] tracking-tight text-[var(--app-color-text)] sm:text-5xl lg:text-6xl">
+              Your Organization's Assets.<br />
+              <span className="text-[var(--app-color-primary)]">Finally Under Control.</span>
+            </h1>
 
-        {/* Sub-headline */}
-        <p className="mx-auto mb-5 max-w-3xl text-xl text-[var(--app-color-text-muted)] leading-relaxed">
-          Spreadsheets break. Paper logs get lost. Shared equipment gets double-booked. <br className="hidden md:block" />
-          <strong className="text-[var(--app-color-text)] font-semibold">AssetFlow</strong> is the centralized ERP that replaces manual chaos with a structured, conflict-free operational pipeline — from first registration to final audit.
-        </p>
+            {/* Sub-headline */}
+            <p className="mb-8 text-base text-[var(--app-color-text-muted)] leading-relaxed max-w-xl">
+              Spreadsheets break. Paper logs get lost. Shared equipment gets double-booked. <br className="hidden md:block" />
+              <strong className="text-[var(--app-color-text)] font-semibold">AssetFlow</strong> is the centralized ERP that replaces manual chaos with a structured, conflict-free operational pipeline — from first registration to final audit.
+            </p>
 
-        {/* CTA buttons */}
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center mt-10">
-          <Link
-            to="/register"
-            className="btn-primary-solid w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--app-color-primary)] px-8 py-4 text-sm font-bold text-white shadow-lg shadow-[var(--app-color-primary)]/30 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
-          >
-            Launch Workspace <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            to="/login"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[var(--app-color-border)] bg-white/80 px-8 py-4 text-sm font-semibold text-[var(--app-color-text)] backdrop-blur hover:bg-white transition-colors"
-          >
-            Sign In to Dashboard
-          </Link>
+            {/* CTA buttons */}
+            <div className="flex flex-col items-center gap-3 sm:flex-row w-full sm:w-auto">
+              <Link
+                to="/register"
+                className="btn-primary-solid w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--app-color-primary)] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[var(--app-color-primary)]/30 hover:bg-[var(--app-color-primary-hover)] transition-all hover:scale-[1.02]"
+              >
+                Launch Workspace <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to="/login"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[var(--app-color-border)] bg-white/80 px-6 py-3.5 text-sm font-semibold text-[var(--app-color-text)] backdrop-blur hover:bg-white transition-colors"
+              >
+                Sign In to Dashboard
+              </Link>
+            </div>
+          </div>
+
+          {/* Right Column (TowerLoader Animation) */}
+          <div className="lg:col-span-5 flex justify-center items-center py-8 lg:py-0">
+            <div className="relative flex items-center justify-center w-72 h-72 rounded-3xl bg-white/30 border border-white/40 shadow-inner backdrop-blur-md">
+              {/* Decorative rings */}
+              <div className="absolute inset-4 rounded-full border border-dashed border-[var(--app-color-border)]/50 animate-[spin_20s_linear_infinite]" />
+              <div className="absolute inset-12 rounded-full border border-dashed border-[var(--app-color-primary)]/20 animate-[spin_30s_linear_infinite_reverse]" />
+              
+              <div className="scale-[2.5] relative -top-3">
+                <TowerLoader />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Stats row */}
