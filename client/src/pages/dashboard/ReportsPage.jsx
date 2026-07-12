@@ -307,58 +307,57 @@ export default function ReportsPage() {
       {/* ────────────────────────────────────────────────────────────────────────── */}
       {/* 📄 hidden print:block A4 Single Page Corporate PDF Report */}
       {/* ────────────────────────────────────────────────────────────────────────── */}
-      <div className="hidden print:block mx-auto bg-white text-slate-800 font-sans p-10 max-w-[210mm] min-h-[297mm] text-sm leading-relaxed border border-slate-300 rounded-lg shadow-sm">
+      <div className="hidden print:block mx-auto bg-white text-slate-800 font-sans p-4 w-full text-xs leading-relaxed">
         {/* Header */}
-        <div className="flex justify-between items-center border-b-2 border-[#0f5f73] pb-6 mb-8">
+        <div className="flex justify-between items-center border-b-2 border-[#0f5f73] pb-3 mb-4">
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-[#0f5f73] uppercase">AssetFlow</h1>
-            <p className="text-xs text-slate-500 font-medium tracking-wide mt-1">OPERATIONAL INVENTORY SUMMARY</p>
+            <h1 className="text-2xl font-extrabold tracking-tight text-[#0f5f73] uppercase">AssetFlow</h1>
+            <p className="text-[10px] text-slate-500 font-medium tracking-wide mt-0.5">OPERATIONAL INVENTORY SUMMARY</p>
           </div>
-          <div className="text-right text-xs text-slate-500">
+          <div className="text-right text-[10px] text-slate-500">
             <p className="font-semibold">Security: INTERNAL ONLY</p>
-            <p>Generated: {new Date().toLocaleDateString()}</p>
-            <p>Time: {new Date().toLocaleTimeString()}</p>
+            <p>Generated: {new Date().toLocaleDateString()} {new Date().toLocaleTimeString()}</p>
           </div>
         </div>
 
         {/* Exec Summary */}
-        <div className="mb-8">
-          <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2 mb-3">Executive Summary</h2>
-          <p className="text-slate-600 text-xs">
+        <div className="mb-4">
+          <h2 className="text-xs font-bold text-slate-900 border-b border-slate-100 pb-1 mb-2">Executive Summary</h2>
+          <p className="text-slate-600 text-[11px]">
             This document outlines the operational status of physical capital assets registered within the organizational directories. Live database analytics are summarized below, confirming deployment distributions, audit compliance, and maintenance logs.
           </p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          <div className="border border-slate-200 rounded-xl p-4 bg-slate-50">
-            <span className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Deploy Rate</span>
-            <span className="block text-2xl font-black text-[#0f5f73] mt-1">{utilization?.utilizationRate || 0}%</span>
+        <div className="grid grid-cols-4 gap-3 mb-4">
+          <div className="border border-slate-200 rounded-lg p-2.5 bg-slate-50">
+            <span className="block text-[9px] uppercase font-bold text-slate-400 tracking-wider">Deploy Rate</span>
+            <span className="block text-xl font-black text-[#0f5f73] mt-0.5">{utilization?.utilizationRate || 0}%</span>
           </div>
-          <div className="border border-slate-200 rounded-xl p-4 bg-slate-50">
-            <span className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total Assets</span>
-            <span className="block text-2xl font-black text-slate-800 mt-1">{utilization?.total || 0}</span>
+          <div className="border border-slate-200 rounded-lg p-2.5 bg-slate-50">
+            <span className="block text-[9px] uppercase font-bold text-slate-400 tracking-wider">Total Assets</span>
+            <span className="block text-xl font-black text-slate-800 mt-0.5">{utilization?.total || 0}</span>
           </div>
-          <div className="border border-slate-200 rounded-xl p-4 bg-slate-50">
-            <span className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Pending Maint.</span>
-            <span className="block text-2xl font-black text-amber-600 mt-1">{auditSummary?.missingItems || 0}</span>
+          <div className="border border-slate-200 rounded-lg p-2.5 bg-slate-50">
+            <span className="block text-[9px] uppercase font-bold text-slate-400 tracking-wider">Pending Maint.</span>
+            <span className="block text-xl font-black text-amber-600 mt-0.5">{auditSummary?.missingItems || 0}</span>
           </div>
-          <div className="border border-slate-200 rounded-xl p-4 bg-slate-50">
-            <span className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Open Audits</span>
-            <span className="block text-2xl font-black text-slate-800 mt-1">{auditSummary?.openAudits || 0}</span>
+          <div className="border border-slate-200 rounded-lg p-2.5 bg-slate-50">
+            <span className="block text-[9px] uppercase font-bold text-slate-400 tracking-wider">Open Audits</span>
+            <span className="block text-xl font-black text-slate-800 mt-0.5">{auditSummary?.openAudits || 0}</span>
           </div>
         </div>
 
         {/* Distributions */}
-        <div className="grid grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-2 gap-6 mb-4">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 border-b border-slate-100 pb-1">Asset Status Breakdown</h3>
-            <table className="w-full text-xs">
+            <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2 border-b border-slate-100 pb-0.5">Asset Status Breakdown</h3>
+            <table className="w-full text-[10px]">
               <tbody>
-                {assetStatus.map((item, idx) => (
+                {assetStatus.slice(0, 5).map((item, idx) => (
                   <tr key={idx} className="border-b border-slate-100">
-                    <td className="py-2 text-slate-600 capitalize font-medium">{STATUS_LABELS[item.status] || item.status}</td>
-                    <td className="py-2 text-right font-bold text-slate-800">{item.count} units</td>
+                    <td className="py-1 text-slate-600 capitalize font-medium">{STATUS_LABELS[item.status] || item.status}</td>
+                    <td className="py-1 text-right font-bold text-slate-800">{item.count} units</td>
                   </tr>
                 ))}
               </tbody>
@@ -366,13 +365,13 @@ export default function ReportsPage() {
           </div>
 
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 border-b border-slate-100 pb-1">Deployments by Department</h3>
-            <table className="w-full text-xs">
+            <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2 border-b border-slate-100 pb-0.5">Deployments by Department</h3>
+            <table className="w-full text-[10px]">
               <tbody>
-                {deptDist.map((item, idx) => (
+                {deptDist.slice(0, 5).map((item, idx) => (
                   <tr key={idx} className="border-b border-slate-100">
-                    <td className="py-2 text-slate-600 font-medium">{item.department || 'Unassigned'}</td>
-                    <td className="py-2 text-right font-bold text-slate-800">{item.count} units</td>
+                    <td className="py-1 text-slate-600 font-medium">{item.department || 'Unassigned'}</td>
+                    <td className="py-1 text-right font-bold text-slate-800">{item.count} units</td>
                   </tr>
                 ))}
               </tbody>
@@ -381,9 +380,9 @@ export default function ReportsPage() {
         </div>
 
         {/* Audit compliance notes */}
-        <div className="border border-slate-100 rounded-xl p-4 mb-12 text-xs bg-slate-50/50">
-          <h4 className="font-bold text-slate-900 flex items-center gap-1.5 mb-1.5">
-            <CheckSquare className="h-4 w-4 text-[#0f5f73]" /> Audit Reconciliation Statement
+        <div className="border border-slate-100 rounded-lg p-2.5 mb-4 text-[10px] bg-slate-50/50">
+          <h4 className="font-bold text-slate-900 flex items-center gap-1.5 mb-1">
+            <CheckSquare className="h-3.5 w-3.5 text-[#0f5f73]" /> Audit Reconciliation Statement
           </h4>
           <p className="text-slate-600">
             This verification cycle lists {auditSummary?.verifiedItems || 0} items as reconciled and verified. A total of {auditSummary?.missingItems || 0} discrepancies have been logged by auditors. All missing items are flagged as lost upon cycle closure in accordance with internal compliance standards.
@@ -391,19 +390,19 @@ export default function ReportsPage() {
         </div>
 
         {/* Signatures */}
-        <div className="grid grid-cols-2 gap-12 mt-auto pt-12 border-t border-slate-200">
-          <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-8 mt-4 pt-4 border-t border-slate-200">
+          <div className="space-y-2">
             <div className="h-[1px] bg-slate-300 w-full" />
             <div>
-              <p className="text-xs font-semibold text-slate-800">Asset Manager Representative</p>
-              <p className="text-[10px] text-slate-400">Date Signed: ____ / ____ / ________</p>
+              <p className="text-[10px] font-semibold text-slate-800">Asset Manager Representative</p>
+              <p className="text-[9px] text-slate-400">Date Signed: ____ / ____ / ________</p>
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <div className="h-[1px] bg-slate-300 w-full" />
             <div>
-              <p className="text-xs font-semibold text-slate-800">Compliance / Auditor Signature</p>
-              <p className="text-[10px] text-slate-400">Date Signed: ____ / ____ / ________</p>
+              <p className="text-[10px] font-semibold text-slate-800">Compliance / Auditor Signature</p>
+              <p className="text-[9px] text-slate-400">Date Signed: ____ / ____ / ________</p>
             </div>
           </div>
         </div>
