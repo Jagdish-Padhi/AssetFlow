@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Clock, CheckCircle2, User } from 'lucide-react';
 import Badge from '../Badge.jsx';
 import Button from '../Button.jsx';
 import { bookingStatusMeta } from '../../utils/bookingStatus.js';
@@ -49,7 +49,7 @@ function BookingChip({ booking, onClick }) {
 }
 
 function rangeLabel(viewMode, viewDate) {
-  if (viewMode === 'day') {
+  if (viewMode === 'day' || viewMode === 'timeline') {
     return viewDate.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
   }
   if (viewMode === 'week') {
@@ -69,6 +69,30 @@ export default function ResourceCalendar({
   onSlotClick,
   onBookingClick,
 }) {
+  
+  // Hours array for timeline view: 9:00 AM to 6:00 PM
+  const timelineHours = Array.from({ length: 10 }, (_, i) => 9 + i); // [9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+
+  const getBookingForHour = (hour) => {
+    const startHour = new Date(viewDate);
+    startHour.setHours(hour, 0, 0, 0);
+    const endHour = new Date(viewDate);
+    endHour.setHours(hour + 1, 0, 0, 0);
+
+    return bookings.find((b) => {
+      const bStart = new Date(b.startTime);
+      const bEnd = new Date(b.endTime);
+      // Returns true if booking overlaps this hourly slot
+      return (bStart < endHour && bEnd > startHour);
+    });
+  };
+
+  const handleHourClick = (hour) => {
+    const start = new Date(viewDate);
+    start.setHours(hour, 0, 0, 0);
+    onSlotClick(start);
+  };
+
   return (
     <div className="rounded-2xl border border-(--app-color-border) bg-white p-4">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -82,7 +106,7 @@ export default function ResourceCalendar({
           <h3 className="ml-2 text-sm font-bold text-(--app-color-text)">{rangeLabel(viewMode, viewDate)}</h3>
         </div>
         <div className="flex gap-1 rounded-lg border border-(--app-color-border) p-1">
-          {['day', 'week', 'month'].map((mode) => (
+          {['day', 'week', 'month', 'timeline'].map((mode) => (
             <button
               key={mode}
               onClick={() => onViewModeChange(mode)}
@@ -166,6 +190,71 @@ export default function ResourceCalendar({
               </button>
             );
           })}
+        </div>
+      )}
+
+      {viewMode === 'timeline' && (
+        <div className="space-y-2.5">
+          <div className="grid grid-cols-12 gap-4 border-b border-(--app-color-border) pb-2.5 mb-1 px-4 text-xs font-bold uppercase tracking-wider text-(--app-color-text-muted)">
+            <div className="col-span-3 flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5" /> Time Slot
+            </div>
+            <div className="col-span-9">Schedule Status</div>
+          </div>
+
+          <div className="divide-y divide-(--app-color-border) border border-(--app-color-border) rounded-xl overflow-hidden bg-slate-50">
+            {timelineHours.map((hour) => {
+              const booking = getBookingForHour(hour);
+              const ampm = hour >= 12 ? 'PM' : 'AM';
+              const displayHour = hour > 12 ? hour - 12 : hour;
+              const nextHour = hour + 1 > 12 ? hour + 1 - 12 : hour + 1;
+              const nextAmpm = hour + 1 >= 24 ? 'AM' : (hour + 1 >= 12 ? 'PM' : 'AM');
+              const timeString = `${displayHour}:00 ${ampm} - ${nextHour}:00 ${nextAmpm}`;
+
+              if (booking) {
+                const meta = bookingStatusMeta(booking.status);
+                return (
+                  <div
+                    key={hour}
+                    onClick={() => onBookingClick(booking)}
+                    className="grid grid-cols-12 gap-4 p-4 items-center bg-white hover:bg-slate-50 transition-colors cursor-pointer"
+                  >
+                    <div className="col-span-3 text-xs font-bold text-(--app-color-text)">
+                      {timeString}
+                    </div>
+                    <div className="col-span-9 flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-(--app-color-text) truncate">{booking.title}</p>
+                        <p className="text-[10px] text-(--app-color-text-muted) flex items-center gap-1 mt-0.5">
+                          <User className="h-3 w-3" /> Booked by {booking.bookedByUserName || 'Employee'}
+                        </p>
+                      </div>
+                      <Badge variant={meta.variant} size="sm">{meta.label}</Badge>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <div
+                  key={hour}
+                  className="grid grid-cols-12 gap-4 p-4 items-center bg-slate-50/50 hover:bg-white transition-colors"
+                >
+                  <div className="col-span-3 text-xs font-semibold text-slate-500">
+                    {timeString}
+                  </div>
+                  <div className="col-span-9">
+                    <button
+                      onClick={() => handleHourClick(hour)}
+                      className="flex items-center gap-1.5 text-xs text-(--app-color-primary) font-semibold hover:underline"
+                    >
+                      <Plus className="h-3.5 w-3.5" /> Available (Click to Book)
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
