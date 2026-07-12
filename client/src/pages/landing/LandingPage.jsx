@@ -307,7 +307,7 @@ export default function LandingPage() {
               <BrandLogo size="lg" />
             </div>
             <p className="text-sm text-[var(--app-color-text-muted)] leading-relaxed max-w-sm">
-              A centralized ERP platform digitizing how organizations track, allocate, and maintain physical assets and shared resources. Built for the Odoo Hack 2025 — Enterprise Operations track.
+              A centralized ERP platform digitizing how organizations track, allocate, and maintain physical assets and shared resources. Designed for the Odoo Hackathon 2026 — Enterprise Operations Track.
             </p>
           </div>
 
@@ -355,7 +355,7 @@ export default function LandingPage() {
 
         {/* Bottom bar */}
         <div className="mx-auto max-w-6xl px-8 border-t border-[var(--app-color-border)]/40 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-[var(--app-color-text-muted)]">
-          <p>© 2025 AssetFlow Platform. All rights reserved.</p>
+          <p>© 2026 AssetFlow Platform. All rights reserved.</p>
           <p>Built with ❤️ for <strong className="text-[var(--app-color-text)]">Odoo Hackathon 2026</strong> · Team Esc(Reality);</p>
         </div>
       </footer>
