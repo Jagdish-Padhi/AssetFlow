@@ -11,9 +11,9 @@ import useAuthStore from '../../store/auth.store.js';
 const initialForm = { name: '', email: '', password: '', confirmPassword: '' };
 
 const ONBOARDING_STEPS = [
-  'Create your account — you start as an Employee by default.',
-  'Your Admin will assign your role and department in the workspace.',
-  'Access your personalized dashboard to track assets and requests.',
+  'Register with your work email.',
+  'Admin assigns your role & department.',
+  'Manage assets from day one.',
 ];
 
 export default function RegisterPage() {
@@ -56,37 +56,45 @@ export default function RegisterPage() {
           {/* ── Left branding panel ── */}
           <section
             className="relative flex flex-col items-center justify-center overflow-hidden p-8 text-center text-white lg:p-12"
-            style={{ background: 'var(--app-gradient-auth-login)' }}
+            style={{ background: 'linear-gradient(160deg, #081420 0%, #0d2436 50%, #0f5f73 100%)' }}
           >
-            <div className="noise-overlay pointer-events-none opacity-20" />
+            <div className="noise-overlay pointer-events-none opacity-10" />
+            {/* Radial glow behind logo */}
+            <div
+              className="absolute top-[12%] left-1/2 -translate-x-1/2 h-52 w-52 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(15,95,115,0.55) 0%, transparent 70%)' }}
+            />
             <div className="relative z-10 flex flex-col items-center">
-              <div className="flex flex-col items-center gap-6">
-                <img src="/logo.png" alt="AssetFlow Logo" className="h-36 w-36 object-contain drop-shadow-2xl" />
-                <div className="h-[3px] w-16 rounded-full bg-emerald-400" />
+              <div className="flex flex-col items-center gap-5">
+                <img src="/logo.png" alt="AssetFlow Logo" className="h-28 w-28 object-contain" style={{ filter: 'drop-shadow(0 0 24px rgba(15,200,180,0.35))' }} />
+                <div className="h-[2px] w-10 rounded-full" style={{ background: 'linear-gradient(90deg, transparent, #2dd4bf, transparent)' }} />
               </div>
-              <div className="mt-8">
-                <h1 className="text-4xl font-black uppercase tracking-tighter italic lg:text-5xl">
-                  Join Your Team<br />
-                  <span className="text-teal-400">On AssetFlow.</span>
+              <div className="mt-7">
+                <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-teal-400/80">Enterprise Asset Management</p>
+                <h1 className="text-4xl font-black leading-[1.05] tracking-tight lg:text-[2.8rem]">
+                  Know Every Asset.<br />
+                  <span style={{ background: 'linear-gradient(90deg, #2dd4bf, #67e8f9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    Control Every Move.
+                  </span>
                 </h1>
-                <p className="mx-auto mt-4 max-w-sm text-lg font-bold leading-tight text-white/70">
-                  One platform to manage every asset, booking, and maintenance request across your organization.
+                <p className="mx-auto mt-5 max-w-xs text-[0.9rem] leading-relaxed text-white/50">
+                  One platform. Every department. Zero blind spots.
                 </p>
               </div>
-              <div className="mt-10 space-y-4 px-4 text-left">
+              <div className="mt-8 flex flex-col gap-2.5 w-full max-w-[220px]">
                 {ONBOARDING_STEPS.map((step, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/30 text-emerald-400 text-xs font-black">
+                  <div key={i} className="flex items-start gap-3 rounded-xl px-4 py-2.5 text-left" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-400/20 text-teal-400 text-[10px] font-black mt-0.5">
                       {i + 1}
                     </div>
-                    <p className="text-sm text-white/80">{step}</p>
+                    <p className="text-[11px] font-semibold tracking-wide text-white/80 leading-snug">{step}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="absolute bottom-6 left-0 right-0 z-10 flex items-center justify-between px-10 text-[9px] font-black uppercase tracking-[0.3em] text-white/25">
+            <div className="absolute bottom-5 left-0 right-0 z-10 flex items-center justify-between px-10 text-[8px] font-bold uppercase tracking-[0.3em] text-white/20">
               <p>© 2025 AssetFlow</p>
-              <p>Odoo Hack 2025 · Team Esc(Reality);</p>
+              <p>Odoo Hack 2025 · Esc(Reality);</p>
             </div>
           </section>
 

@@ -11,12 +11,10 @@ import useAuthStore from '../../store/auth.store.js';
 const initialForm = { email: '', password: '' };
 
 const FEATURE_BULLETS = [
-  'Full Asset Lifecycle Tracking',
-  'Conflict-Free Resource Booking',
-  'Maintenance Request Workflows',
-  'Role-Based Access Control',
-  'Scheduled Audit Cycles',
-  'Real-Time Activity Dashboard',
+  'Asset Lifecycle Control',
+  'Conflict-Free Booking',
+  'Maintenance Workflows',
+  'Role-Based Access',
 ];
 
 export default function LoginPage() {
@@ -55,39 +53,48 @@ export default function LoginPage() {
           {/* ── Left branding panel ── */}
           <section
             className="relative flex flex-col items-center justify-center overflow-hidden p-8 text-center text-white lg:p-12"
-            style={{ background: 'var(--app-gradient-auth-login)' }}
+            style={{ background: 'linear-gradient(160deg, #081420 0%, #0d2436 50%, #0f5f73 100%)' }}
           >
-            <div className="noise-overlay pointer-events-none opacity-20" />
+            <div className="noise-overlay pointer-events-none opacity-10" />
+            {/* Radial glow behind logo so it blends seamlessly */}
+            <div
+              className="absolute top-[12%] left-1/2 -translate-x-1/2 h-52 w-52 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(15,95,115,0.55) 0%, transparent 70%)' }}
+            />
             <div className="relative z-10 flex flex-col items-center">
-              <div className="flex flex-col items-center gap-6">
-                <img src="/logo.png" alt="AssetFlow Logo" className="h-36 w-36 object-contain drop-shadow-2xl" />
-                <div className="h-[3px] w-16 rounded-full bg-emerald-400" />
+              <div className="flex flex-col items-center gap-5">
+                <img src="/logo.png" alt="AssetFlow Logo" className="h-28 w-28 object-contain" style={{ filter: 'drop-shadow(0 0 24px rgba(15,200,180,0.35))' }} />
+                <div className="h-[2px] w-10 rounded-full" style={{ background: 'linear-gradient(90deg, transparent, #2dd4bf, transparent)' }} />
               </div>
-              <div className="mt-8">
-                <h1 className="text-4xl font-black uppercase tracking-tighter italic lg:text-5xl">
-                  Enterprise Assets,<br />
-                  <span className="text-teal-400">Fully In Control.</span>
+              <div className="mt-7">
+                <p className="mb-3 text-[10px] font-black uppercase tracking-[0.35em] text-teal-400/80">Enterprise Asset Management</p>
+                <h1 className="text-4xl font-black leading-[1.05] tracking-tight lg:text-[2.8rem]">
+                  Know Every Asset.<br />
+                  <span style={{ background: 'linear-gradient(90deg, #2dd4bf, #67e8f9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    Control Every Move.
+                  </span>
                 </h1>
-                <p className="mx-auto mt-4 max-w-sm text-lg font-bold leading-tight text-white/70">
-                  AssetFlow helps your organization track, allocate, and maintain physical assets — all in one place.
+                <p className="mx-auto mt-5 max-w-xs text-[0.9rem] leading-relaxed text-white/50">
+                  One platform. Every department. Zero blind spots.
                 </p>
               </div>
-              <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-4 px-4 text-left">
+              {/* Clean 4-item single-column pill list */}
+              <div className="mt-8 flex flex-col gap-2.5 w-full max-w-[220px]">
                 {FEATURE_BULLETS.map((f) => (
-                  <div key={f} className="flex items-center gap-2.5">
-                    <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
-                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+                  <div key={f} className="flex items-center gap-3 rounded-xl px-4 py-2" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-teal-400/20">
+                      <svg className="h-2.5 w-2.5 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="whitespace-nowrap text-xs font-black uppercase tracking-wider text-white/90">{f}</span>
+                    <span className="text-[11px] font-semibold tracking-wide text-white/80">{f}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="absolute bottom-6 left-0 right-0 z-10 flex items-center justify-between px-10 text-[9px] font-black uppercase tracking-[0.3em] text-white/25">
+            <div className="absolute bottom-5 left-0 right-0 z-10 flex items-center justify-between px-10 text-[8px] font-bold uppercase tracking-[0.3em] text-white/20">
               <p>© 2025 AssetFlow</p>
-              <p>Odoo Hack 2025 · Team Esc(Reality);</p>
+              <p>Odoo Hack 2025 · Esc(Reality);</p>
             </div>
           </section>
 
