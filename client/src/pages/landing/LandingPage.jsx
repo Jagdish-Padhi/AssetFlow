@@ -116,9 +116,7 @@ export default function LandingPage() {
       {/* ── Navbar ──────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 flex items-center justify-between px-8 py-4 lg:px-20 border-b border-[var(--app-color-border)]/30 bg-white/50 backdrop-blur-xl">
         <Link to="/" className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--app-color-primary)] text-white shadow-lg shadow-[var(--app-color-primary)]/20 shadow-primary/20">
-            <Package className="h-5 w-5 btn-primary-solid" />
-          </span>
+          <img src="/logo.svg" alt="AssetFlow Logo" className="h-11 w-11 object-contain" />
           <BrandLogo size="lg" />
         </Link>
         <div className="flex items-center gap-2">
@@ -305,9 +303,7 @@ export default function LandingPage() {
           {/* Brand */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--app-color-primary)] text-white shadow-md">
-                <Package className="h-5 w-5 btn-primary-solid" />
-              </span>
+              <img src="/logo.svg" alt="AssetFlow Logo" className="h-11 w-11 object-contain" />
               <BrandLogo size="lg" />
             </div>
             <p className="text-sm text-[var(--app-color-text-muted)] leading-relaxed max-w-sm">
