@@ -138,24 +138,24 @@ export default function LandingPage() {
       </nav>
 
       {/* ── Hero ────────────────────────────────────────────────── */}
-      <section className="relative z-10 mx-auto max-w-6xl px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
+      <section className="relative z-10 mx-auto max-w-6xl px-8 pt-8 pb-12 lg:pt-16 lg:pb-16">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
           {/* Left Column (Main Text) */}
-          <div className="text-left lg:col-span-7 flex flex-col items-start">
+          <div className="text-left lg:col-span-8 flex flex-col items-start">
             {/* Badge */}
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--app-color-border)] bg-white/90 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[var(--app-color-primary)] shadow-sm backdrop-blur">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--app-color-border)] bg-white/90 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[var(--app-color-primary)] shadow-sm backdrop-blur">
               <span className="h-2 w-2 rounded-full bg-[var(--app-color-primary)] animate-pulse" />
               Centralized Asset Intelligence
             </div>
 
             {/* Headline */}
-            <h1 className="mb-6 text-4xl font-black leading-[1.15] tracking-tight text-[var(--app-color-text)] sm:text-5xl lg:text-6xl">
-              From Asset Registration<br />
-              <span className="text-[var(--app-color-primary)]">To Operational Excellence.</span>
+            <h1 className="mb-4 text-3xl font-black leading-[1.2] tracking-tight text-[var(--app-color-text)] sm:text-5xl lg:text-[4.2rem] lg:leading-[1.15]">
+              <span className="block lg:whitespace-nowrap">From Asset Registration</span>
+              <span className="block text-[var(--app-color-primary)] lg:whitespace-nowrap">To Operational Excellence.</span>
             </h1>
 
             {/* Sub-headline */}
-            <p className="mb-8 text-base text-[var(--app-color-text-muted)] leading-relaxed max-w-xl">
+            <p className="mb-6 text-sm text-[var(--app-color-text-muted)] leading-relaxed max-w-2xl">
               AssetFlow digitizes every stage of the asset lifecycle—from registration and allocation to maintenance, audits, and retirement—helping organizations improve efficiency, reduce conflicts, and make data-driven operational decisions.
             </p>
 
@@ -177,13 +177,13 @@ export default function LandingPage() {
           </div>
 
           {/* Right Column (TowerLoader Animation) */}
-          <div className="lg:col-span-5 flex justify-center items-center py-8 lg:py-0">
-            <div className="relative flex items-center justify-center w-72 h-72">
+          <div className="lg:col-span-4 flex justify-center items-center py-4 lg:py-0">
+            <div className="relative flex items-center justify-center w-64 h-64">
               {/* Decorative rings */}
               <div className="absolute inset-4 rounded-full border border-dashed border-[var(--app-color-border)]/40 animate-[spin_20s_linear_infinite]" />
               <div className="absolute inset-12 rounded-full border border-dashed border-[var(--app-color-primary)]/10 animate-[spin_30s_linear_infinite_reverse]" />
               
-              <div className="scale-[2.5] relative -top-3">
+              <div className="scale-[2.2] relative -top-3">
                 <TowerLoader />
               </div>
             </div>
