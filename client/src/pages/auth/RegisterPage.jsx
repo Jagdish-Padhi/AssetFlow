@@ -81,13 +81,13 @@ export default function RegisterPage() {
                   One platform. Every department. Zero blind spots.
                 </p>
               </div>
-              <div className="mt-8 flex flex-col gap-2.5 w-full max-w-[220px]">
+              <div className="mt-8 flex flex-col gap-2.5 w-full max-w-[280px]">
                 {ONBOARDING_STEPS.map((step, i) => (
-                  <div key={i} className="flex items-start gap-3 rounded-xl px-4 py-2.5 text-left" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-400/20 text-teal-400 text-[10px] font-black mt-0.5">
+                  <div key={i} className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-left" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-400/20 text-teal-400 text-[10px] font-black">
                       {i + 1}
                     </div>
-                    <p className="text-[11px] font-semibold tracking-wide text-white/80 leading-snug">{step}</p>
+                    <p className="text-[11px] font-semibold tracking-wide text-white/80">{step}</p>
                   </div>
                 ))}
               </div>
