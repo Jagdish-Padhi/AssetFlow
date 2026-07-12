@@ -48,7 +48,7 @@ function signAccessToken(user) {
       userId: user.id,
       email: user.email,
       name: user.name,
-      plan: user.plan,
+      role: user.role,
       type: 'access',
     },
     secret,
@@ -81,7 +81,9 @@ function buildAuthPayload(user) {
       id: user.id,
       name: user.name,
       email: user.email,
-      plan: user.plan,
+      role: user.role,
+      status: user.status,
+      departmentId: user.departmentId,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       lastLoginAt: user.lastLoginAt,
@@ -95,7 +97,7 @@ function buildAuthPayload(user) {
 
 /**
  * Register a new user.
- * TODO: Rename "name" field to match your entity (e.g. orgName, teamName).
+ * Signup always creates an Employee account. Role promotion is Admin-only.
  */
 export async function registerUser(payload = {}) {
   const db = getDb();
@@ -116,7 +118,7 @@ export async function registerUser(payload = {}) {
 
   const [user] = await db
     .insert(users)
-    .values({ name, email, passwordHash })
+    .values({ name, email, passwordHash, role: 'employee' })
     .returning();
 
   const authPayload = buildAuthPayload(user);
@@ -142,6 +144,12 @@ export async function loginUser(payload = {}) {
   if (!user) {
     const error = new Error('Invalid email or password.');
     error.statusCode = 401;
+    throw error;
+  }
+
+  if (user.status === 'inactive') {
+    const error = new Error('Your account has been deactivated. Contact admin.');
+    error.statusCode = 403;
     throw error;
   }
 
@@ -248,9 +256,9 @@ export async function getUserById(userId) {
       id: users.id,
       name: users.name,
       email: users.email,
-      plan: users.plan,
-      notifyOnHighPriority: users.notifyOnHighPriority,
-      notifyDigest: users.notifyDigest,
+      role: users.role,
+      status: users.status,
+      departmentId: users.departmentId,
       createdAt: users.createdAt,
       updatedAt: users.updatedAt,
       lastLoginAt: users.lastLoginAt,
